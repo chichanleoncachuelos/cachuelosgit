@@ -363,6 +363,20 @@
                         </login-module>
                     </authentication>
                 </security-domain>
+                <security-domain name="Administradores" cache-type="default">
+                    <authentication>
+                        <login-module code="org.jboss.security.auth.spi.DatabaseServerLoginModule" flag="required">
+                            <module-option name="dsJndiName" value="java:jboss/datasources/${env.OPENSHIFT_MYSQL_DATASOURCE}"/>
+                            <module-option name="principalsQuery" value="select passwd from Users where username=?"/>
+                            <module-option name="rolesQuery" value="select userRoles, 'Roles' from UserRoles where username=?"/>
+                            <module-option name="hashAlgorithm" value="SHA1"/>
+                            <module-option name="hashEncoding" value="BASE64"/>
+                            <module-option name="hashCharset" value="UTF-8"/>
+                            <module-option name="hashUserPassword" value="true"/>
+                            <module-option name="hashStorePassword" value="false"/>
+                        </login-module>
+                    </authentication>
+                </security-domain>
                 <security-domain name="jboss-web-policy" cache-type="default">
                     <authorization>
                         <policy-module code="Delegating" flag="required"/>
