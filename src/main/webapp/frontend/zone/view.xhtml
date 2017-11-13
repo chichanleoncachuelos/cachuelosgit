@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:forgeview="http://jboss.org/forge/view"
+	xmlns:m="http://code.google.com/p/gmaps4jsf/"
+	template="/resources/scaffold/pageFrontTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{frontZoneBean.id}" />
+		<f:event type="preRenderView" listener="#{frontZoneBean.retrieve}" />
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Visualizar Zona" />
+
+	<ui:define name="header">
+		Zona de Cobertura
+	</ui:define>
+
+	<ui:define name="subheader">
+		Visualizar Existente Zona
+	</ui:define>
+
+	<ui:define name="footer" />
+
+	<ui:define name="main">
+		<h:panelGrid columnClasses="label,component,required" columns="3">
+			<h:outputLabel for="zoneBeanZoneLat" value="Lat:" />
+			<h:outputText id="zoneBeanZoneLat" value="#{frontZoneBean.zone.lat}" />
+			<h:outputText />
+			<h:outputLabel for="zoneBeanZoneLng" value="Lng:" />
+			<h:outputText id="zoneBeanZoneLng" value="#{frontZoneBean.zone.lng}" />
+			<h:outputText />
+			<h:outputLabel for="zoneBeanZoneName" value="Nombre:" />
+			<h:outputText id="zoneBeanZoneName"
+				value="#{frontZoneBean.zone.name}" />
+			<h:outputText />
+			<h:outputLabel for="zoneBeanZoneRadius"
+				value="Radio Alcance (En Kmkkkkk.):" />
+			<h:outputText id="zoneBeanZoneRadius"
+				value="#{frontZoneBean.zone.radius}" />
+			<h:outputText />
+		</h:panelGrid>
+		<h:form id="form">
+			<m:map width="600px" height="600px"
+				latitude="#{frontZoneBean.zone.lat}"
+				longitude="#{frontZoneBean.zone.lng}" zoom="15">
+				<m:marker draggable="false" latitude="#{frontZoneBean.zone.lat}"
+					longitude="#{frontZoneBean.zone.lng}">
+					<m:htmlInformationWindow htmlText="#{frontZoneBean.zone.name}" />
+				</m:marker>
+				<m:circle latitude="#{frontZoneBean.zone.lat}"
+					longitude="#{frontZoneBean.zone.lng}" lineWidth="1"
+					hexStrokeColor="#cc0033" raduis="#{frontZoneBean.zone.radius}">
+				</m:circle>
+			</m:map>
+		</h:form>
+
+		<div class="buttons">
+			<h:link value="Ver Todos" outcome="search"
+				styleClass="btn btn-primary" />
+		</div>
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/scaffold/pageFrontTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{frontOfferBean.id}" />
+		<f:event type="preRenderView" listener="#{frontOfferBean.retrieve}" />
+		<f:event type="preRenderView" listener="#{simpleLoginBean.checkIfThereIsMessageAcceptedOffer}" />
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Visualizar Oferta" />
+
+	<ui:define name="header">
+		Oferta
+	</ui:define>
+
+	<ui:define name="subheader">
+		Visualizar Oferta
+		<br/>
+		#{simpleLoginBean.messageAcceptOffer}
+	</ui:define>
+
+	<ui:define name="footer" />
+
+	<ui:define name="main">		
+		<h:panelGrid columnClasses="label,component,required" columns="3">
+			<h:outputLabel for="offerBeanOfferUser" value="Trabajador:" />
+			<h:link id="offerBeanOfferUser" outcome="/frontend/user/view"
+				value="#{frontOfferBean.offer.user}">
+				<f:param name="id" value="#{frontOfferBean.offer.user.idUser}" />
+			</h:link>
+			<h:outputText />
+			<h:outputLabel for="offerBeanOfferCachuelo" value="Cachuelo:" />
+			<h:link id="offerBeanOfferCachuelo" outcome="/frontend/cachuelo/view"
+				value="#{frontOfferBean.offer.cachuelo}">
+				<f:param name="id" value="#{frontOfferBean.offer.cachuelo.idCachuelo}" />
+			</h:link>
+			<h:outputText />
+			<h:outputLabel for="offerBeanOfferPrice" value="Precio:" />
+			<h:outputText id="offerBeanOfferPrice"
+				value="#{frontOfferBean.offer.price}" />
+			<h:outputText />
+			<h:outputLabel for="offerBeanOfferCreatedAt"
+				value="Fecha de Creación:" />
+			<h:outputText id="offerBeanOfferCreatedAt"
+				value="#{frontOfferBean.offer.createdAt}">
+				<f:convertDateTime pattern="MMM d, yyyy hh:mm:ss a" type="both" />
+			</h:outputText>
+			<h:outputText />
+			<h:outputLabel for="offerBeanOfferUpdatedAt"
+				value="Fecha de Actualización:" />
+			<h:outputText id="offerBeanOfferUpdatedAt"
+				value="#{frontOfferBean.offer.updatedAt}" />
+			<h:outputText />
+			<h:outputLabel for="offerBeanOfferIsAccepted" value="Fue Aceptada ?:" />
+			<h:outputText id="offerBeanOfferIsAccepted"
+				value="#{frontOfferBean.offer.acceptedStr}" />
+			<h:outputText />
+		</h:panelGrid>
+
+		<h:form id="buttons">
+			<div class="buttons">
+				<h:commandLink value="Aceptar Oferta" action="#{frontOfferBean.updateAccepted}"
+					styleClass="btn btn-primary" rendered="#{frontOfferBean.offer.isAccepted eq 0}" />
+				<h:link value="Ver Todos" outcome="search"
+					styleClass="btn btn-primary" />
+			</div>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

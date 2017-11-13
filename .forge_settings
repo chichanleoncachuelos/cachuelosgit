@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<configuration>
+<forge>
+<analytics>
+<enabled>false</enabled>
+</analytics>
+</forge>
+<org>
+<jboss>
+<forge>
+<scaffold>
+<faces>
+<FacesScaffold_targetDir>/</FacesScaffold_targetDir>
+</faces>
+</scaffold>
+</forge>
+</jboss>
+</org>
+<activatorChoice>WEB_XML</activatorChoice>
+<rootpath>/rest</rootpath>
+</configuration>

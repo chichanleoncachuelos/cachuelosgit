@@ -1,0 +1,348 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:forgeview="http://jboss.org/forge/view"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{userBean.id}" />
+		<f:event type="preRenderView" listener="#{userBean.retrieve}" />
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Visualizar usuario" />
+
+	<ui:define name="header">
+		Usuario
+	</ui:define>
+
+	<ui:define name="subheader">
+		Visualizar Usuario Existente
+	</ui:define>
+
+	<ui:define name="footer" />
+
+	<ui:define name="main">
+		<img
+			src="http://#{applicationBean.ipAddress}/cachimages/#{userBean.user.pictureFull}"
+			alt="Porsiacaso" title="Titulo" width="200" />
+		<h:panelGrid columnClasses="label,component,required" columns="3">
+			<h:outputLabel for="userBeanUserZone" value="Zona:" />
+			<h:link id="userBeanUserZone" outcome="/zone/view"
+				value="#{userBean.user.zone}">
+				<f:param name="id" value="#{userBean.user.zone.idZone}" />
+			</h:link>
+			<h:outputText />
+			<h:outputLabel for="userBeanUserName" value="Nombre:" />
+			<h:outputText id="userBeanUserName" value="#{userBean.user.name}" />
+			<h:outputText />
+			<h:outputLabel for="userBeanUserLastName" value="Apellido:" />
+			<h:outputText id="userBeanUserLastName"
+				value="#{userBean.user.lastName}" />
+			<h:outputText />
+			<h:outputLabel for="userBeanUserEmail" value="Email:" />
+			<h:outputText id="userBeanUserEmail" value="#{userBean.user.email}" />
+			<h:outputText />
+			<h:outputLabel for="userBeanUserUpdatedAt" value="Fecha Actualización:" />
+			<h:outputText id="userBeanUserUpdatedAt"
+				value="#{userBean.user.updatedAt}" />
+			<h:outputText />
+			<h:outputLabel for="userBeanUserPictureFull" value="Fotografía Grande:" />
+			<a
+				href="http://#{applicationBean.ipAddress}/cachimages/#{userBean.user.pictureFull}">Ver
+				Imagen</a>
+			<h:outputText />
+			<h:outputLabel for="userBeanUserPictureThumb" value="Fotografía Mediana:" />
+			<a
+				href="http://#{applicationBean.ipAddress}/cachimages/#{userBean.user.pictureThumb}">Ver
+				Miniatura</a>
+			<h:outputText />
+			<h:outputLabel for="userBeanUserIsworker" value="Es Trabajador?:" />
+			<h:outputText id="userBeanUserIsworker"
+				value="#{userBean.user.isworker}" />
+			<h:outputText />
+			<h:outputLabel for="userBeanUserGcmid" value="GCMID:" />
+			<h:outputText id="userBeanUserGcmid" value="GCM" />
+			<h:outputText />
+			<h:outputLabel for="userBeanUserIsActive" value="Está Activo?:" />
+			<h:outputText id="userBeanUserIsActive"
+				value="#{userBean.user.isActive}" />
+			<h:outputText />
+			<h:outputLabel for="userBeanUserPassword" value="Contraseña:" />
+			<h:outputText id="userBeanUserPassword"
+				value="#{userBean.user.password}" />
+			<h:outputText />
+			<h:outputLabel for="userBeanUserCreatedAt" value="Fecha Creación:" />
+			<h:outputText id="userBeanUserCreatedAt"
+				value="#{userBean.user.createdAt}">
+				<f:convertDateTime pattern="MMM d, yyyy hh:mm:ss a" type="both" />
+			</h:outputText>
+			<h:outputText />
+			<h:outputLabel for="userBeanUserSecretkey" value="Clave Secreta:" />
+			<h:outputText id="userBeanUserSecretkey"
+				value="#{userBean.user.secretkey}" />
+			<h:outputText />
+			<h:outputLabel for="userBeanUserDni" value="DNI:" />
+			<h:outputText id="userBeanUserDni" value="#{userBean.user.dni}" />
+			<h:outputText />
+			<h:outputLabel for="userBeanUserCachuelos" value="Cachuelos:" />
+			<h:dataTable id="userBeanUserCachuelos" styleClass="data-table"
+				value="#{forgeview:asList(userBean.user.cachuelos)}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Fecha Creación" />
+					</f:facet>
+					<h:link outcome="/cachuelo/view">
+						<f:param name="id" value="#{_item.idCachuelo}" />
+						<h:outputText id="itemCreatedAt" value="#{_item.createdAt}">
+							<f:convertDateTime pattern="MMM d, yyyy hh:mm:ss a" type="both" />
+						</h:outputText>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Nombre" />
+					</f:facet>
+					<h:link outcome="/cachuelo/view">
+						<f:param name="id" value="#{_item.idCachuelo}" />
+						<h:outputText id="itemName" value="#{_item.name}" />
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<h:outputText />
+			<h:outputLabel for="userBeanUserLocations" value="Ubicación:" />
+			<h:dataTable id="userBeanUserLocations" styleClass="data-table"
+				value="#{forgeview:asList(userBean.user.locations)}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Lat" />
+					</f:facet>
+					<h:link outcome="/location/view">
+						<f:param name="id" value="#{_item.idLocation}" />
+						<h:outputText id="itemLat" value="#{_item.lat}" />
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Lng" />
+					</f:facet>
+					<h:link outcome="/location/view">
+						<f:param name="id" value="#{_item.idLocation}" />
+						<h:outputText id="itemLng" value="#{_item.lng}" />
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Nombre" />
+					</f:facet>
+					<h:link outcome="/location/view">
+						<f:param name="id" value="#{_item.idLocation}" />
+						<h:outputText id="itemName" value="#{_item.name}" />
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<h:outputText />
+			<h:outputLabel for="userBeanUserWorkerbytypecachuelos"
+				value="Trabajador por Tipo de Cachuelo:" />
+			<h:dataTable id="userBeanUserWorkerbytypecachuelos"
+				styleClass="data-table"
+				value="#{forgeview:asList(userBean.user.workerbytypecachuelos)}"
+				var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Tipo de Cachuelo" />
+					</f:facet>
+					<h:link outcome="/workerbytypecachuelo/view">
+						<f:param name="id" value="#{_item.id}" />
+						<h:outputText id="forgeviewdisplayitemTypecachuelo"
+							value="#{forgeview:display(_item.typecachuelo)}" />
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Esta disponible?" />
+					</f:facet>
+					<h:link outcome="/workerbytypecachuelo/view">
+						<f:param name="id" value="#{_item.id}" />
+						<h:outputText id="itemIsAvailable" value="#{_item.isAvailable}" />
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<h:outputText />
+			<h:outputLabel for="userBeanUserCommentratings"
+				value="Comentario y Ratings:" />
+			<h:dataTable id="userBeanUserCommentratings" styleClass="data-table"
+				value="#{forgeview:asList(userBean.user.commentratings)}"
+				var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Fecha Creación" />
+					</f:facet>
+					<h:link outcome="/commentrating/view">
+						<f:param name="id" value="#{_item.idComment}" />
+						<h:outputText id="itemCreatedAt" value="#{_item.createdAt}">
+							<f:convertDateTime pattern="MMM d, yyyy hh:mm:ss a" type="both" />
+						</h:outputText>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Comentario" />
+					</f:facet>
+					<h:link outcome="/commentrating/view">
+						<f:param name="id" value="#{_item.idComment}" />
+						<h:outputText id="itemComment" value="#{_item.comment}" />
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<h:outputText />
+			<h:outputLabel for="userBeanUserUserlocationbytimes"
+				value="Ubicacion de Usuario por Tiempo:" />
+			<h:dataTable id="userBeanUserUserlocationbytimes"
+				styleClass="data-table"
+				value="#{forgeview:asList(userBean.user.userlocationbytimes)}"
+				var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Lat" />
+					</f:facet>
+					<h:link outcome="/userlocationbytime/view">
+						<f:param name="id" value="#{_item.idUserLocationByTime}" />
+						<h:outputText id="itemLat" value="#{_item.lat}" />
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Lng" />
+					</f:facet>
+					<h:link outcome="/userlocationbytime/view">
+						<f:param name="id" value="#{_item.idUserLocationByTime}" />
+						<h:outputText id="itemLng" value="#{_item.lng}" />
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Fecha y Hora" />
+					</f:facet>
+					<h:link outcome="/userlocationbytime/view">
+						<f:param name="id" value="#{_item.idUserLocationByTime}" />
+						<h:outputText id="itemDateAndTime" value="#{_item.dateAndTime}">
+							<f:convertDateTime pattern="MMM d, yyyy hh:mm:ss a" type="both" />
+						</h:outputText>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<h:outputText />
+			<h:outputLabel for="userBeanUserOffers" value="Oferta:" />
+			<h:dataTable id="userBeanUserOffers" styleClass="data-table"
+				value="#{forgeview:asList(userBean.user.offers)}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Precio" />
+					</f:facet>
+					<h:link outcome="/offer/view">
+						<f:param name="id" value="#{_item.idOffer}" />
+						<h:outputText id="itemPrice" value="#{_item.price}" />
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Fecha Creación" />
+					</f:facet>
+					<h:link outcome="/offer/view">
+						<f:param name="id" value="#{_item.idOffer}" />
+						<h:outputText id="itemCreatedAt" value="#{_item.createdAt}">
+							<f:convertDateTime pattern="MMM d, yyyy hh:mm:ss a" type="both" />
+						</h:outputText>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<h:outputText />
+			<h:outputLabel for="userBeanUserMessagesForIdUserSender"
+				value="Mensajes por Id Usuario Remitente:" />
+			<h:dataTable id="userBeanUserMessagesForIdUserSender"
+				styleClass="data-table"
+				value="#{forgeview:asList(userBean.user.messagesForIdUserSender)}"
+				var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Mensajes" />
+					</f:facet>
+					<h:link outcome="/message/view">
+						<f:param name="id" value="#{_item.idMessage}" />
+						<h:outputText id="itemMessage" value="#{_item.message}" />
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Fecha Creación" />
+					</f:facet>
+					<h:link outcome="/message/view">
+						<f:param name="id" value="#{_item.idMessage}" />
+						<h:outputText id="itemCreatedAt" value="#{_item.createdAt}">
+							<f:convertDateTime pattern="MMM d, yyyy hh:mm:ss a" type="both" />
+						</h:outputText>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<h:outputText />
+			<h:outputLabel for="userBeanUserDigitalizeddocuments"
+				value="Documentos Digitalizados:" />
+			<h:dataTable id="userBeanUserDigitalizeddocuments"
+				styleClass="data-table"
+				value="#{forgeview:asList(userBean.user.digitalizeddocuments)}"
+				var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Nombre" />
+					</f:facet>
+					<h:link outcome="/digitalizeddocument/view">
+						<f:param name="id" value="#{_item.idDigitalizedDocument}" />
+						<h:outputText id="itemName" value="#{_item.name}" />
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<h:outputText />
+			<h:outputLabel for="userBeanUserMessagesForIdReceiver"
+				value="Mensajes por Id Usuario Destinatario:" />
+			<h:dataTable id="userBeanUserMessagesForIdReceiver"
+				styleClass="data-table"
+				value="#{forgeview:asList(userBean.user.messagesForIdReceiver)}"
+				var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Mensajes" />
+					</f:facet>
+					<h:link outcome="/message/view">
+						<f:param name="id" value="#{_item.idMessage}" />
+						<h:outputText id="itemMessage" value="#{_item.message}" />
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Fecha Creación" />
+					</f:facet>
+					<h:link outcome="/message/view">
+						<f:param name="id" value="#{_item.idMessage}" />
+						<h:outputText id="itemCreatedAt" value="#{_item.createdAt}">
+							<f:convertDateTime pattern="MMM d, yyyy hh:mm:ss a" type="both" />
+						</h:outputText>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<h:outputText />
+		</h:panelGrid>
+
+		<div class="buttons">
+			<h:link value="Ver Todo" outcome="search"
+				styleClass="btn btn-primary" />
+			<h:link value="Editar" outcome="create" includeViewParams="true"
+				styleClass="btn btn-primary" />
+			<h:link value="Crear Nuevo" outcome="create"
+				styleClass="btn btn-primary" />
+		</div>
+	</ui:define>
+
+</ui:composition>

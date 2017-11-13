@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:forgeview="http://jboss.org/forge/view"
+	template="/resources/scaffold/pageFrontTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{frontCachuelostateBean.id}"/>
+		<f:event type="preRenderView" listener="#{frontCachuelostateBean.retrieve}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Visualizar estado de cachuelo"/>
+
+	<ui:define name="header">
+		Estado de cachuelo
+	</ui:define>
+
+	<ui:define name="subheader">
+		Visualizar estado de cachuelo
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:panelGrid columnClasses="label,component,required" columns="3">
+			<h:outputLabel for="cachuelostateBeanCachuelostateName" value="Nombre:"/>
+			<h:outputText id="cachuelostateBeanCachuelostateName" value="#{frontCachuelostateBean.cachuelostate.name}"/>
+			<h:outputText/>
+			<h:outputLabel for="cachuelostateBeanCachuelostateDescription" value="Descripción:"/>
+			<h:outputText id="cachuelostateBeanCachuelostateDescription" value="#{frontCachuelostateBean.cachuelostate.description}"/>
+			<h:outputText/>		
+			<h:outputText/>
+		</h:panelGrid>
+
+		<div class="buttons">
+			<h:link value="Ver todos" outcome="search" styleClass="btn btn-primary"/> 
+		</div>
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:forgeview="http://jboss.org/forge/view"
+	xmlns:p="http://primefaces.org/ui"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:event type="preRenderView" listener="#{dashboardBean.retrieve}" />
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Visualizar mapeo" />
+
+	<ui:define name="header">
+		Mapeo de cachuelos por zonas
+	</ui:define>
+
+	<ui:define name="subheader">
+		Visualizar mapa
+	</ui:define>
+
+	<ui:define name="footer" />
+
+	<ui:define name="main">
+		<h:form id="form">
+			<h:panelGrid columnClasses="label,component,required" columns="3">
+				<h:outputLabel for="dashboardBeanGreenLimit" value="Limite verde:" />
+				<h:panelGroup>
+					<p:inputText id="dashboardBeanGreenLimit"
+						value="#{dashboardBean.greenLimit}">
+						<p:ajax event="keyup" update="gmap,displayRange,doubleSlider"
+							listener="#{dashboardBean.handleKeyEvent}" />
+					</p:inputText>
+					<h:message for="dashboardBeanGreenLimit" styleClass="error" />
+				</h:panelGroup>
+				<h:outputText />
+				<h:outputLabel for="dashboardBeanOrangeLimit"
+					value="Limite naranja:" />
+				<h:panelGroup>
+					<p:inputText id="dashboardBeanOrangeLimit"
+						value="#{dashboardBean.orangeLimit}">
+						<p:ajax event="keyup" update="gmap,displayRange,doubleSlider"
+							listener="#{dashboardBean.handleKeyEventOrange}" />
+					</p:inputText>
+					<h:message for="dashboardBeanOrangeLimit" styleClass="error" />
+				</h:panelGroup>
+				<h:outputText />
+				<h:outputLabel for="displayRange" value="Rango:" />
+				<h:panelGroup>
+					<h:panelGrid columns="1" style="margin-bottom: 10px">
+						<h:outputText id="displayRange"
+							value="Verde: #{dashboardBean.greenLimit} Naranja: #{dashboardBean.orangeLimit}" />
+						<p:slider for="dashboardBeanGreenLimit,dashboardBeanOrangeLimit"
+							minValue="0" maxValue="30"
+							id="doubleSlider" display="displayRange" style="width: 250px"
+							range="true" displayTemplate="Verde: {min} Naranja: {max}">
+							<p:ajax event="slideEnd" update="gmap"
+								listener="#{dashboardBean.onSlideEnd}" process="@this,dashboardBeanGreenLimit,dashboardBeanOrangeLimit"/>
+						</p:slider>
+					</h:panelGrid>
+					<h:message for="dashboardBeanOrangeLimit" styleClass="error" />
+				</h:panelGroup>
+				<h:outputText />
+
+				<p:growl id="growl" life="4000" />
+				<p:gmap id="gmap" center="-12.071886098955, -77.0860" zoom="12"
+					type="ROADMAP" style="width:100%;height:650px"
+					model="#{dashboardBean.circleModel}">
+					<p:ajax event="overlaySelect"
+						listener="#{dashboardBean.onCircleSelect}" update="growl" />
+				</p:gmap>
+				<h:outputText />
+			</h:panelGrid>
+		</h:form>
+		<div class="buttons">
+			<h:link value="Regresar" outcome="search"
+				styleClass="btn btn-primary" />
+		</div>
+	</ui:define>
+
+</ui:composition>

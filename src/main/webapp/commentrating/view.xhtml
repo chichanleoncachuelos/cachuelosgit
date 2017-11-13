@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{commentratingBean.id}"/>
+		<f:event type="preRenderView" listener="#{commentratingBean.retrieve}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Visualizar comentario y rating"/>
+
+	<ui:define name="header">
+		Comentario  y Rating
+	</ui:define>
+
+	<ui:define name="subheader">
+		Visualizar Existente Comentario y Rating
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:panelGrid columnClasses="label,component,required" columns="3">
+			<h:outputLabel for="commentratingBeanCommentratingCommentratingtype" value="Tipo Comentario:"/>
+			<h:link id="commentratingBeanCommentratingCommentratingtype" outcome="/commentratingtype/view" value="#{commentratingBean.commentrating.commentratingtype}">
+				<f:param name="id" value="#{commentratingBean.commentrating.commentratingtype.idCommentType}"/>
+			</h:link>
+			<h:outputText/>
+			<h:outputLabel for="commentratingBeanCommentratingCachuelo" value="Cachuelo:"/>
+			<h:link id="commentratingBeanCommentratingCachuelo" outcome="/cachuelo/view" value="#{commentratingBean.commentrating.cachuelo}">
+				<f:param name="id" value="#{commentratingBean.commentrating.cachuelo.idCachuelo}"/>
+			</h:link>
+			<h:outputText/>
+			<h:outputLabel for="commentratingBeanCommentratingUser" value="Usuario:"/>
+			<h:link id="commentratingBeanCommentratingUser" outcome="/user/view" value="#{commentratingBean.commentrating.user}">
+				<f:param name="id" value="#{commentratingBean.commentrating.user.idUser}"/>
+			</h:link>
+			<h:outputText/>
+			<h:outputLabel for="commentratingBeanCommentratingCreatedAt" value="Fecha Creación:"/>
+			<h:outputText id="commentratingBeanCommentratingCreatedAt" value="#{commentratingBean.commentrating.createdAt}">
+				<f:convertDateTime pattern="MMM d, yyyy hh:mm:ss a" type="both"/>
+			</h:outputText>
+			<h:outputText/>
+			<h:outputLabel for="commentratingBeanCommentratingUpdatedAt" value="Fecha Actualización:"/>
+			<h:outputText id="commentratingBeanCommentratingUpdatedAt" value="#{commentratingBean.commentrating.updatedAt}"/>
+			<h:outputText/>
+			<h:outputLabel for="commentratingBeanCommentratingComment" value="Comentario:"/>
+			<h:outputText id="commentratingBeanCommentratingComment" value="#{commentratingBean.commentrating.comment}"/>
+			<h:outputText/>
+			<h:outputLabel for="commentratingBeanCommentratingStars" value="Estrellas:"/>
+			<h:outputText id="commentratingBeanCommentratingStars" value="#{commentratingBean.commentrating.stars}"/>
+			<h:outputText/>
+		</h:panelGrid>
+
+		<div class="buttons">
+			<h:link value="Ver Todo" outcome="search" styleClass="btn btn-primary"/> 
+		</div>
+	</ui:define>
+
+</ui:composition>

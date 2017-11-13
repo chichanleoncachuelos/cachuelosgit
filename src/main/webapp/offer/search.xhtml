@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:forgeview="http://jboss.org/forge/view"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="page" value="#{offerBean.page}"/>
+		<f:event type="preRenderView" listener="#{offerBean.paginate}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Buscar Oferta"/>
+
+	<ui:define name="header">
+		Oferta de cachuelo
+	</ui:define>
+
+	<ui:define name="subheader">
+		Buscar Oferta
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:form id="search">
+			<f:validateBean disabled="true">
+				<h:panelGroup styleClass="search">
+
+					<h:panelGrid columnClasses="label,component,required" columns="3">
+						<h:outputLabel for="offerBeanExampleUser" value="Usuario:"/>
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{userBean.converter}" id="offerBeanExampleUser" value="#{offerBean.example.user}">
+								<f:selectItem/>
+								<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{userBean.all}" var="_item"/>
+							</h:selectOneMenu>
+							<h:message for="offerBeanExampleUser" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="offerBeanExampleCachuelo" value="Cachuelo:"/>
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{cachueloBean.converter}" id="offerBeanExampleCachuelo" value="#{offerBean.example.cachuelo}">
+								<f:selectItem/>
+								<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{cachueloBean.all}" var="_item"/>
+							</h:selectOneMenu>
+							<h:message for="offerBeanExampleCachuelo" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="offerBeanExamplePrice" value="Precio:"/>
+						<h:panelGroup>
+							<h:inputText id="offerBeanExamplePrice" maxLength="20" value="#{offerBean.example.price}"/>
+							<h:message for="offerBeanExamplePrice" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>						
+						<h:outputLabel for="offerBeanExampleIsAccepted" value="Fue Aceptada? (1 si, 0 no):"/>
+						<h:panelGroup>
+							<h:inputText id="offerBeanExampleIsAccepted" value="#{offerBean.example.isAccepted}"/>
+							<h:message for="offerBeanExampleIsAccepted" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+					</h:panelGrid>
+					<h:panelGroup styleClass="buttons">
+						<h:commandLink value="Buscar" action="#{offerBean.search}" styleClass="btn btn-primary"/>
+					</h:panelGroup>
+				</h:panelGroup>
+			</f:validateBean>
+			
+			<h:dataTable id="offerBeanPageItems" styleClass="data-table" value="#{offerBean.pageItems}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Precio"/>
+					</f:facet>
+					<h:link outcome="/offer/view">
+						<f:param name="id" value="#{_item.idOffer}"/>
+						<h:outputText id="itemPrice" value="#{_item.price}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Fecha de Creación"/>
+					</f:facet>
+					<h:link outcome="/offer/view">
+						<f:param name="id" value="#{_item.idOffer}"/>
+						<h:outputText id="itemCreatedAt" value="#{_item.createdAt}">
+							<f:convertDateTime type="both"/>
+						</h:outputText>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<ui:include src="/resources/scaffold/paginator.xhtml">
+				<ui:param name="paginatorBean" value="#{offerBean}"/>
+			</ui:include>
+		</h:form>
+			
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:forgeview="http://jboss.org/forge/view"
+	xmlns:m="http://code.google.com/p/gmaps4jsf/"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{locationBean.id}" />
+		<f:event type="preRenderView" listener="#{locationBean.retrieve}" />
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Crear Ubicación" />
+
+	<ui:define name="header">
+		Ubicación
+	</ui:define>
+
+	<ui:define name="subheader">
+		<c:choose>
+			<c:when test="#{!empty locationBean.id}">
+				Editar Ubicación
+			</c:when>
+			<c:otherwise>
+				Crear Nueva Ubicación
+			</c:otherwise>
+		</c:choose>
+	</ui:define>
+
+	<ui:define name="footer" />
+
+	<ui:define name="main">
+		<h:form id="create">
+			<h:messages globalOnly="true" styleClass="error" />
+
+			<h:panelGrid columnClasses="label,component,required" columns="3">
+
+				<h:outputLabel for="locationBeanLocationUser" value="Usuario:" />
+				<h:panelGroup>
+					<c:choose>
+						<c:when test="#{!empty locationBean.id}">
+				Editar
+			</c:when>
+						<c:otherwise>
+							<h:selectOneMenu converter="#{userBean.converter}"
+								id="locationBeanLocationUser"
+								value="#{locationBean.location.user}">
+								<f:selectItem />
+								<f:selectItems itemLabel="#{forgeview:display(_item)}"
+									itemValue="#{_item}" value="#{userBean.all}" var="_item" />
+							</h:selectOneMenu>
+							<h:message for="locationBeanLocationUser" styleClass="error" />
+						</c:otherwise>
+					</c:choose>
+
+				</h:panelGroup>
+				<h:outputText />
+				<h:outputLabel for="locationBeanLocationLat" value="" />
+				<h:panelGroup>
+
+
+				</h:panelGroup>
+				<h:outputText />
+				<h:outputLabel for="locationBeanLocationLng" value="" />
+
+				<h:panelGroup>
+
+
+				</h:panelGroup>
+				<h:outputText />
+				<h:outputLabel for="locationBeanLocationIsFavorite"
+					value="Es Favorito:" />
+				<h:panelGroup>
+					<h:inputText id="locationBeanLocationIsFavorite"
+						value="#{locationBean.location.isFavorite}" />
+					<h:message for="locationBeanLocationIsFavorite" styleClass="error" />
+				</h:panelGroup>
+				<h:outputText />
+				<h:outputLabel for="locationBeanLocationName" value="Nombre:" />
+				<h:panelGroup>
+					<h:inputText id="locationBeanLocationName" maxLength="30"
+						value="#{locationBean.location.name}" />
+					<h:message for="locationBeanLocationName" styleClass="error" />
+					<c:choose>
+						<c:when test="#{!empty locationBean.id}">
+							<m:map width="600px" height="600px"
+								latitude="#{locationBean.location.lat}"
+								longitude="#{locationBean.location.lng}" zoom="15">
+								<m:marker draggable="true"
+									latitude="#{locationBean.location.lat}"
+									longitude="#{locationBean.location.lng}"
+									submitOnValueChange="false"
+									jsVariable="#{locationBean.location.user.idUser}"
+									valueChangeListener="#{locationBean.processValueChangeForMarker}">
+									<m:htmlInformationWindow
+										htmlText="#{locationBean.location.name}" />
+								</m:marker>
+							</m:map>
+						</c:when>
+						<c:otherwise>
+							<m:map width="500" height="450px" latitude="-12.071886098955085"
+								longitude="-77.08684869110584" enableScrollWheelZoom="true">
+								<m:marker draggable="true" submitOnValueChange="false"
+									valueChangeListener="#{locationBean.processValueChangeForMarker}">
+									<m:htmlInformationWindow htmlText="Nuevo" />
+								</m:marker>
+							</m:map>
+						</c:otherwise>
+					</c:choose>
+				</h:panelGroup>
+				<h:outputText />
+				<h:outputLabel for="locationBeanLocationCachuelos"
+					value="Cachuelos:" />
+				<h:panelGroup>
+					<ui:param name="_collection"
+						value="#{locationBean.location.cachuelos}" />
+					<h:dataTable id="locationBeanLocationCachuelos"
+						styleClass="data-table" value="#{forgeview:asList(_collection)}"
+						var="_item">
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Nombre del Cachuelo" />
+							</f:facet>
+							<h:link outcome="/cachuelo/view">
+								<f:param name="id" value="#{_item.idCachuelo}" />
+								<h:outputText id="itemCreatedAt" value="#{_item.name}">
+								</h:outputText>
+							</h:link>
+							<f:facet name="footer">
+								<h:inputText id="cachueloBeanAddCreatedAt" maxLength="19"
+									value="#{cachueloBean.add.createdAt}">
+									<f:convertDateTime pattern="MMM d, yyyy hh:mm:ss a" type="both" />
+								</h:inputText>
+								<h:message for="cachueloBeanAddCreatedAt" styleClass="error" />
+							</f:facet>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Fecha de ejecucion" />
+							</f:facet>
+							<h:link outcome="/cachuelo/view">
+								<f:param name="id" value="#{_item.idCachuelo}" />
+								<h:outputText id="itemToBeCompleteAt"
+									value="#{_item.toBeCompleteAt}" />
+							</h:link>
+							<f:facet name="footer">
+								<h:inputText id="cachueloBeanAddToBeCompleteAt" maxLength="30"
+									value="#{cachueloBean.add.toBeCompleteAt}" />
+								<h:message for="cachueloBeanAddToBeCompleteAt"
+									styleClass="error" />
+							</f:facet>
+						</h:column>
+						<h:column footerClass="remove-column" headerClass="remove-column">
+							<h:commandLink action="#{_collection.remove(_item)}"
+								styleClass="remove-button" />
+							<f:facet name="footer">
+								<h:commandLink action="#{_collection.add(cachueloBean.added)}"
+									id="locationBeanLocationCachuelosAdd" styleClass="add-button">
+									<f:setPropertyActionListener
+										target="#{cachueloBean.add.location}"
+										value="#{locationBean.location}" />
+								</h:commandLink>
+							</f:facet>
+						</h:column>
+					</h:dataTable>
+				</h:panelGroup>
+				<h:outputText />
+			</h:panelGrid>
+
+			<div class="buttons">
+				<h:commandLink value="Guardar" action="#{locationBean.update}"
+					styleClass="btn btn-primary" />
+				<c:choose>
+					<c:when test="#{!empty locationBean.id}">
+						<h:link value="Cancelar" outcome="view"
+							styleClass="btn btn-primary">
+							<f:param name="id" value="#{locationBean.id}" />
+						</h:link>
+						<h:commandLink value="Borrar" action="#{locationBean.delete}"
+							styleClass="btn btn-primary" />
+					</c:when>
+					<c:otherwise>
+						<h:link value="Cancelar" outcome="search"
+							styleClass="btn btn-primary" />
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>

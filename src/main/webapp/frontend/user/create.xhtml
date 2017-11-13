@@ -1,0 +1,188 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:forgeview="http://jboss.org/forge/view"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j" xmlns:p="http://primefaces.org/ui"
+	template="/mail/welcomePageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{frontUserBean.id}" />
+		<f:event type="preRenderView" listener="#{frontUserBean.retrieve}" />
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Crear nuevo usuario" />
+
+	<ui:define name="header">
+		Usuario
+	</ui:define>
+
+	<ui:define name="subheader">
+		<c:choose>
+			<c:when test="#{!empty frontUserBean.id}">
+				Editar usuario
+			</c:when>
+			<c:otherwise>
+				Crear nuevo usuario
+			</c:otherwise>
+		</c:choose>
+		<h:form id="button">
+			<h:graphicImage url="#{simpleLoginBean.facebookurlpicture}"
+				rendered="#{simpleLoginBean.facebookid.length()>0}" width="100" />
+			<br />
+			<h:commandLink value="Usar foto de Facebook"
+				action="#{simpleLoginBean.saveFacebookPicture()}"
+				rendered="#{simpleLoginBean.facebookid.length()>0}"
+				styleClass="btn btn-primary" />
+		</h:form>
+	</ui:define>
+
+	<ui:define name="footer" />
+
+	<ui:define name="main">
+		<h:form id="create">
+			<h:messages globalOnly="true" styleClass="error" />
+
+			<h:panelGrid columnClasses="label,component,required" columns="3">
+				<h:outputLabel for="userBeanUserZone" value="Zona:" />
+				<h:panelGroup>
+					<h:selectOneMenu converter="#{frontZoneBean.converter}"
+						id="userBeanUserZone" value="#{frontUserBean.user.zone}"
+						style=" width : 250px;">
+						<f:selectItem />
+						<f:selectItems itemLabel="#{forgeview:display(_item)}"
+							itemValue="#{_item}" value="#{frontZoneBean.all}" var="_item" />
+					</h:selectOneMenu>
+					<h:message for="userBeanUserZone" styleClass="error"
+						style=" width : 250px;" />
+				</h:panelGroup>
+				<h:outputText />
+				<h:outputLabel for="userBeanUserName" value="Nombre:" />
+				<h:panelGroup>
+					<h:inputText id="userBeanUserName" maxLength="20" required="true"
+						requiredMessage="Este campo es obligatorio"
+						value="#{frontUserBean.user.name}" style=" width : 400px;" />
+					<h:message for="userBeanUserName" styleClass="error"
+						style=" width : 250px;" />
+				</h:panelGroup>
+				<h:outputText value="*" />
+				<h:outputLabel for="userBeanUserLastName" value="Apellidos:" />
+				<h:panelGroup>
+					<h:inputText id="userBeanUserLastName" maxLength="20"
+						required="true" value="#{frontUserBean.user.lastName}"
+						style=" width : 400px;" />
+					<h:message for="userBeanUserLastName" styleClass="error"
+						style=" width : 250px;" />
+				</h:panelGroup>
+				<h:outputText value="*" />
+				<h:outputLabel for="userBeanUserEmail" value="Correo electrónico:" />
+				<h:panelGroup>
+					<h:inputText id="userBeanUserEmail" maxLength="30" required="true"
+						value="#{frontUserBean.user.email}" style=" width : 400px;"
+						validatorMessage="Error de Validación: Email incorrecto">
+						<f:validateRegex
+							pattern="^(([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5}){1,25})+([;.](([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5}){1,25})+)*$"></f:validateRegex>
+						<rich:validator />
+					</h:inputText>
+					<rich:message for="userBeanUserEmail" styleClass="error" />
+				</h:panelGroup>
+				<h:outputText value="*" />
+				<h:outputLabel for="userBeanUserPassword" value="Contraseña:" />
+				<h:panelGroup>
+					<h:inputSecret id="userBeanUserPassword" maxLength="20"
+						redisplay="true" required="true"
+						value="#{frontUserBean.user.password}" style=" width : 400px;" />
+					<h:message for="userBeanUserPassword" styleClass="error"
+						style=" width : 250px;" />
+				</h:panelGroup>
+				<h:outputText value="*" />
+				<h:outputLabel for="userBeanUserDni" value="Dni:" />
+				<h:panelGroup>
+					<p:inputMask id="userBeanUserDni" value="#{frontUserBean.user.dni}"
+						style=" width : 400px;" mask="99999999" required="true" />
+					<h:message for="userBeanUserDni" styleClass="error"
+						style=" width : 250px;" />
+				</h:panelGroup>
+				<h:outputText value="*" />
+				<h:outputLabel for="upload" value="Imagen de perfil:" />
+				<h:panelGroup>
+					<h:panelGrid columns="2" columnClasses="top,top">
+						<rich:fileUpload fileUploadListener="#{frontUserBean.listener}"
+							addLabel="Agregar" uploadLabel="Subir" clearLabel="Limpiar"
+							clearAllLabel="Limpiar todos" deleteLabel="Eliminar"
+							doneLabel="Listo"
+							maxFilesQuantity="#{frontUserBean.uploadsAvailable}"
+							style="width:300px; height:220px;" id="upload"
+							acceptedTypes="jpg, gif, png, bmp" immediateUpload="false"
+							disabled="#{frontUserBean.uploadDisabled}" allowFlash="true">
+							<a4j:ajax event="uploadcomplete" execute="@none"
+								render="info,upload" />
+						</rich:fileUpload>
+						<h:panelGroup id="info">
+							<rich:panel bodyClass="info">
+								<f:facet name="header">
+									<h:outputText value="Info de archivos subidos" />
+								</f:facet>
+								<h:outputText value="No hay archivos subidos"
+									rendered="#{frontUserBean.size==0}" />
+								<rich:dataGrid columns="1" value="#{frontUserBean.files}"
+									var="file" rowKeyVar="row">
+									<rich:panel bodyClass="rich-laguna-panel-no-header">
+										<h:panelGrid columns="2">
+											<img
+												src="http://#{applicationBean.ipAddress}/cachimages/#{frontUserBean.user.pictureFull}"
+												alt="Porsiacaso" title="Titulo" height="100px" width="100px" />
+										</h:panelGrid>
+									</rich:panel>
+								</rich:dataGrid>
+							</rich:panel>
+							<a4j:commandButton action="#{frontUserBean.clearUploadData}"
+								render="info, upload" value="Limpiar archivos subidos"
+								rendered="#{frontUserBean.size>0}" />
+						</h:panelGroup>
+					</h:panelGrid>
+
+					<h:message for="upload" styleClass="error" />
+				</h:panelGroup>
+				<h:outputText />
+			</h:panelGrid>
+
+			<div class="buttons">
+				<h:commandLink value="Guardar" action="#{frontUserBean.update}"
+					styleClass="btn btn-primary" />
+				<c:choose>
+					<c:when test="#{!empty frontUserBean.id}">
+						<h:link value="Cancelar" outcome="view"
+							styleClass="btn btn-primary">
+							<f:param name="id" value="#{frontUserBean.id}" />
+						</h:link>
+					</c:when>
+					<c:otherwise>
+						<h:link value="Cancelar" outcome="/frontend/frontend.xhtml"
+							styleClass="btn btn-primary" onclick="clickbutton()" />
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</h:form>
+		<h:form id="headerbuttons">
+			<c:choose>
+				<c:when test="#{!empty frontUserBean.id}">
+				</c:when>
+				<c:otherwise>
+					<p:commandButton id="btnclearpicture" value="Clear Picture"
+						action="#{frontUserBean.clearUploadDataRedirect}"
+						style="display:none" />
+				</c:otherwise>
+			</c:choose>
+		</h:form>
+		<script type="text/javascript">
+			function clickbutton() {    	    	
+				document.getElementById('headerbuttons:btnclearpicture').click();
+		   	}
+	</script>
+	</ui:define>
+</ui:composition>

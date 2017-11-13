@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/scaffold/pageFrontTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="page" value="#{frontCachuelostateBean.page}"/>
+		<f:event type="preRenderView" listener="#{frontCachuelostateBean.paginate}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Buscar Estado de Cachuelo"/>
+
+	<ui:define name="header">
+		Estado de Cachuelo
+	</ui:define>
+
+	<ui:define name="subheader">
+		Buscar Estado de Cachuelo
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:form id="search">
+			<f:validateBean disabled="true">
+				<h:panelGroup styleClass="search">
+
+					<h:panelGrid columnClasses="label,component,required" columns="3">
+						<h:outputLabel for="cachuelostateBeanExampleName" value="Nombre:"/>
+						<h:panelGroup>
+							<h:inputText id="cachuelostateBeanExampleName" maxLength="20" value="#{frontCachuelostateBean.example.name}"/>
+							<h:message for="cachuelostateBeanExampleName" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="cachuelostateBeanExampleDescription" value="Descripción:"/>
+						<h:panelGroup>
+							<h:inputText id="cachuelostateBeanExampleDescription" maxLength="300" value="#{frontCachuelostateBean.example.description}"/>
+							<h:message for="cachuelostateBeanExampleDescription" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+					</h:panelGrid>
+					<h:panelGroup styleClass="buttons">
+						<h:commandLink value="Buscar" action="#{frontCachuelostateBean.search}" styleClass="btn btn-primary"/>
+					</h:panelGroup>
+				</h:panelGroup>
+			</f:validateBean>
+			
+			<h:dataTable id="cachuelostateBeanPageItems" styleClass="data-table" value="#{frontCachuelostateBean.pageItems}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Nombre"/>
+					</f:facet>
+					<h:link outcome="/frontend/cachuelostate/view">
+						<f:param name="id" value="#{_item.idCachueloState}"/>
+						<h:outputText id="itemName" value="#{_item.name}"/>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<ui:include src="/resources/scaffold/paginator.xhtml">
+				<ui:param name="paginatorBean" value="#{cachuelostateBean}"/>
+			</ui:include>
+		</h:form>
+			
+	</ui:define>
+
+</ui:composition>

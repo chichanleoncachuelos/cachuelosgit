@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:forgeview="http://jboss.org/forge/view"
+	template="/resources/scaffold/pageFrontTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="page" value="#{frontUserBean.page}"/>
+		<f:event type="preRenderView" listener="#{frontUserBean.paginate}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Buscar usuario"/>
+
+	<ui:define name="header">
+		Usuario
+	</ui:define>
+
+	<ui:define name="subheader">
+		Buscar usuario
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:form id="search">
+			<f:validateBean disabled="true">
+				<h:panelGroup styleClass="search">
+
+					<h:panelGrid columnClasses="label,component,required" columns="3">
+						<h:outputLabel for="userBeanExampleZone" value="Zona:"/>
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{frontZoneBean.converter}" id="userBeanExampleZone" value="#{frontUserBean.example.zone}">
+								<f:selectItem/>
+								<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{frontZoneBean.all}" var="_item"/>
+							</h:selectOneMenu>
+							<h:message for="userBeanExampleZone" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="userBeanExampleName" value="Nombre:"/>
+						<h:panelGroup>
+							<h:inputText id="userBeanExampleName" maxLength="20" value="#{frontUserBean.example.name}"/>
+							<h:message for="userBeanExampleName" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="userBeanExampleLastName" value="Apellido:"/>
+						<h:panelGroup>
+							<h:inputText id="userBeanExampleLastName" maxLength="20" value="#{frontUserBean.example.lastName}"/>
+							<h:message for="userBeanExampleLastName" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="userBeanExampleEmail" value="Correo electrónico:"/>
+						<h:panelGroup>
+							<h:inputText id="userBeanExampleEmail" maxLength="30" value="#{frontUserBean.example.email}"/>
+							<h:message for="userBeanExampleEmail" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>					
+					</h:panelGrid>
+					<h:panelGroup styleClass="buttons">
+						<h:commandLink value="Buscar" action="#{frontUserBean.search}" styleClass="btn btn-primary"/>
+					</h:panelGroup>
+				</h:panelGroup>
+			</f:validateBean>
+			
+			<h:dataTable id="userBeanPageItems" styleClass="data-table" value="#{frontUserBean.pageItems}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Nombre"/>
+					</f:facet>
+					<h:link outcome="/frontend/user/view">
+						<f:param name="id" value="#{_item.idUser}"/>
+						<h:outputText id="itemName" value="#{_item.name}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Apellido"/>
+					</f:facet>
+					<h:link outcome="/frontend/user/view">
+						<f:param name="id" value="#{_item.idUser}"/>
+						<h:outputText id="itemLastName" value="#{_item.lastName}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Correo electrónico"/>
+					</f:facet>
+					<h:link outcome="/frontend/user/view">
+						<f:param name="id" value="#{_item.idUser}"/>
+						<h:outputText id="itemEmail" value="#{_item.email}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Es trabajador?"/>
+					</f:facet>
+					<h:link outcome="/frontend/user/view">
+						<f:param name="id" value="#{_item.idUser}"/>
+						<h:outputText id="itemIsworker" value="#{_item.isworker}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Esta activado?"/>
+					</f:facet>
+					<h:link outcome="/frontend/user/view">
+						<f:param name="id" value="#{_item.idUser}"/>
+						<h:outputText id="itemIsActive" value="#{_item.isActive}"/>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<ui:include src="/resources/scaffold/paginator.xhtml">
+				<ui:param name="paginatorBean" value="#{frontUserBean}"/>
+			</ui:include>
+		</h:form>
+			
+	</ui:define>
+
+</ui:composition>

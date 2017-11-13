@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<title>#{empty pageTitle ? 'Page Title' : pageTitle}</title>
+	<link rel="icon" href="#{resource['favicon.ico']}" />
+	<h:outputStylesheet name="bootstrap.css" />
+	<h:outputStylesheet name="forge-style.css" />
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJLYOn_FsXCKpDQX2VQXMskUcuUW1rYus"></script>
+</h:head>
+
+<h:body>
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<h:link id="anotherLink" outcome="/index.xhtml" styleClass="brand">Cachuelos</h:link>
+				<div class="nav-collapse collapse">
+					<ul class="nav">
+						<li><h:link id="brandLink" outcome="/admin/admin.xhtml">Editar administradores</h:link></li>
+						<li><a
+							href="http://#{applicationBean.ipAddress}/faces/home.jsp">Mensaje
+								Comunitario</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container forgecontainer">
+		<div id="navigation">
+			<h:link id="homeLink" outcome="/index.xhtml">
+				<img src="#{resource['tareas.png']}" alt="Forge... get hammered"
+					border="0" />
+			</h:link>
+			<p:tieredMenu style="width:200px">
+				<p:submenu label="Gestion de Cachuelos">
+					<p:menuitem value="Explorar Cachuelos" outcome="/cachuelo/search" />
+					<p:menuitem value="Ofertas" outcome="/offer/search" />
+				</p:submenu>
+				<p:separator />
+				<p:submenu label="Configuracion de Cachuelos">
+					<p:menuitem value="Tipos de Cachuelo"
+						outcome="/typecachuelo/search" />
+					<p:menuitem value="Estados de Cachuelo"
+						outcome="/cachuelostate/search" />
+					<p:menuitem value="Tipos de Comentario"
+						outcome="/commentratingtype/search" />
+					<p:menuitem value="Zonas de Cobertura" outcome="/zone/search" />
+				</p:submenu>
+				<p:separator />
+				<p:submenu label="Gestion de Usuarios">
+					<p:menuitem outcome="/user/search" value="Usuarios" />
+					<p:menuitem outcome="/workerbytypecachuelo/search"
+						value="Trabajadores por Tipo" />
+					<p:menuitem outcome="/digitalizeddocument/search"
+						value="Documentos Digitalizados" />
+					<p:menuitem outcome="/location/search" value="Ubicaciones" />
+				</p:submenu>
+				<p:separator />
+				<p:submenu label="Control de Calidad">
+					<p:menuitem value="Commentarios y Rating"
+						outcome="/commentrating/search" />
+					<p:menuitem outcome="/message/search" value="Mensajes" />
+					<p:menuitem outcome="/userlocationbytime/search"
+						value="Localizar Trabajadores" />
+				</p:submenu>
+				<p:separator />
+				<p:menuitem value="Reportes" outcome="/reports/search">
+				</p:menuitem>
+			</p:tieredMenu>
+		</div>
+		<div id="content">
+			<h1>
+				<ui:insert name="header" />
+			</h1>
+			<h2>
+				<ui:insert name="subheader" />
+			</h2>
+
+			<ui:insert name="main" />
+		</div>
+	</div>
+
+	<footer>
+		<div id="footer-wrapper">
+			<p>Derechos reservados</p>
+		</div>
+	</footer>
+
+</h:body>
+</html>

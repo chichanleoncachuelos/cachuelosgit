@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/resources/scaffold/pageFrontTemplate.xhtml">
+
+	<f:metadata>
+		<f:event type="preRenderView"
+			listener="#{simpleLoginBean.checkIfLoginStatusIsFalse}" />
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Bienvenido a Cachuelos" />
+
+	<ui:define name="header">
+		Bienvenido a Cachuelos
+	</ui:define>
+
+	<ui:define name="main">
+		<h2 class="success">Bienvenido:
+			#{simpleLoginBean.userLogged.name}
+			#{simpleLoginBean.userLogged.lastName}</h2>
+		<p:commandButton onclick="javascript:fbShare();"
+			styleClass="btn btn-primary" value="Compartir en Facebook"
+			type="button" />
+		<script>
+		window.fbAsyncInit = function() {
+		    FB.init({
+		      appId      : '548974548583355',
+		      cookie: true,
+		      xfbml: true,
+		      version    : 'v2.2'
+		    });
+		};
+
+		(function(d, s, id){
+		     var js, fjs = d.getElementsByTagName(s)[0];
+		     if (d.getElementById(id)) {return;}
+		     js = d.createElement(s); js.id = id;
+		     js.src = "//connect.facebook.net/en_US/sdk.js";
+		     fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+		   
+		function fbShare() {			
+			FB.ui({
+				  method: 'feed',
+				  link: 'https://www.facebook.com/Cachuelos-Peru-1644236869144057',
+				  caption: 'Comunidad de empleos cortos Cachuelos',
+				}, function(response){});
+		}			
+		</script>
+	</ui:define>
+
+</ui:composition>

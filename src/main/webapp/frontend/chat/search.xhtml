@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:forgeview="http://jboss.org/forge/view"
+	template="/resources/scaffold/pageFrontTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="page" value="#{chatBean.page}" />
+		<f:event type="preRenderView" listener="#{chatBean.paginate}" />
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Buscar Chat" />
+
+	<ui:define name="header">
+		Chats
+	</ui:define>
+
+	<ui:define name="subheader">
+		Buscar Chat
+	</ui:define>
+
+	<ui:define name="footer" />
+
+	<ui:define name="main">
+		<h:form id="search">
+			<f:validateBean disabled="true">
+				<h:panelGroup styleClass="search">
+					<h:panelGrid columnClasses="label,component,required" columns="3">
+						<h:outputLabel for="messageBeanExampleUserByIdReceiver"
+							value="Trabajador Remitente:" />
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{frontUserBean.converter}"
+								id="messageBeanExampleUserByIdReceiver"
+								value="#{chatBean.example.userToReply}">
+								<f:selectItem />
+								<f:selectItems itemLabel="#{forgeview:display(_item)}"
+									itemValue="#{_item}" value="#{frontUserBean.allWorkers}" var="_item" />
+							</h:selectOneMenu>
+							<h:message for="messageBeanExampleUserByIdReceiver"
+								styleClass="error" />
+						</h:panelGroup>
+						<h:outputText />
+						<h:outputLabel for="messageBeanExampleCachuelo" value="Cachuelo:"/>
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{frontCachueloBean.converter}" id="messageBeanExampleCachuelo" value="#{chatBean.example.cachuelo}">
+								<f:selectItem/>
+								<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{frontCachueloBean.all}" var="_item"/>
+							</h:selectOneMenu>
+							<h:message for="messageBeanExampleCachuelo" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="cachueloBeanExampleUpdatedAt" value="Mensaje:" />
+						<h:panelGroup>
+							<h:inputText id="cachueloBeanExampleUpdatedAt" maxLength="20"
+								value="#{chatBean.example.message}" />
+							<h:message for="cachueloBeanExampleUpdatedAt" styleClass="error" />
+						</h:panelGroup>
+						<h:outputText />
+					</h:panelGrid>
+					<h:panelGroup styleClass="buttons">
+						<h:commandLink value="Buscar" action="#{chatBean.search}"
+							styleClass="btn btn-primary" />
+					</h:panelGroup>
+				</h:panelGroup>
+			</f:validateBean>
+
+			<h:dataTable id="cachueloBeanPageItems" styleClass="data-table"
+				value="#{chatBean.pageItems}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Cachuelo" />
+					</f:facet>
+					<h:link outcome="/frontend/chat/view">
+						<f:param name="id" value="#{_item.idMessage}" />
+						<h:outputText id="itemCreatedAt" value="#{_item.cachuelo.name}">
+							<f:convertDateTime type="both" />
+						</h:outputText>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Usuario Remitente" />
+					</f:facet>
+					<h:link outcome="/frontend/chat/view">
+						<f:param name="id" value="#{_item.idMessage}" />
+						<h:outputText id="itemName"
+							value="#{_item.userToReply.name} #{_item.userToReply.lastName}" />
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<ui:include src="/resources/scaffold/paginator.xhtml">
+				<ui:param name="paginatorBean" value="#{chatBean}" />
+			</ui:include>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

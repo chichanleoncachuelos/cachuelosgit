@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="page" value="#{zoneBean.page}"/>
+		<f:event type="preRenderView" listener="#{zoneBean.paginate}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Buscar Zona de Cobertura"/>
+
+	<ui:define name="header">
+		Zona de Cobertura
+	</ui:define>
+
+	<ui:define name="subheader">
+		Buscar Zona de Cobertura
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:form id="search">
+			<f:validateBean disabled="true">
+				<h:panelGroup styleClass="search">
+
+					<h:panelGrid columnClasses="label,component,required" columns="3">
+						<h:outputLabel for="zoneBeanExampleName" value="Nombre:"/>
+						<h:panelGroup>
+							<h:inputText id="zoneBeanExampleName" maxLength="200" value="#{zoneBean.example.name}"/>
+							<h:message for="zoneBeanExampleName" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+					</h:panelGrid>
+					<h:panelGroup styleClass="buttons">
+						<h:commandLink value="Buscar" action="#{zoneBean.search}" styleClass="btn btn-primary"/>
+						<h:commandLink value="Crear Nuevo" action="#{zoneBean.create}" styleClass="btn btn-primary"/>
+					</h:panelGroup>
+				</h:panelGroup>
+			</f:validateBean>
+			
+			<h:dataTable id="zoneBeanPageItems" styleClass="data-table" value="#{zoneBean.pageItems}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Latitud"/>
+					</f:facet>
+					<h:link outcome="/zone/view">
+						<f:param name="id" value="#{_item.idZone}"/>
+						<h:outputText id="itemLat" value="#{_item.lat}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Longitud"/>
+					</f:facet>
+					<h:link outcome="/zone/view">
+						<f:param name="id" value="#{_item.idZone}"/>
+						<h:outputText id="itemLng" value="#{_item.lng}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Nombre"/>
+					</f:facet>
+					<h:link outcome="/zone/view">
+						<f:param name="id" value="#{_item.idZone}"/>
+						<h:outputText id="itemName" value="#{_item.name}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Radio Alcance (En Km.)"/>
+					</f:facet>
+					<h:link outcome="/zone/view">
+						<f:param name="id" value="#{_item.idZone}"/>
+						<h:outputText id="itemRadius" value="#{_item.radius}"/>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<ui:include src="/resources/scaffold/paginator.xhtml">
+				<ui:param name="paginatorBean" value="#{zoneBean}"/>
+			</ui:include>
+		</h:form>
+			
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:forgeview="http://jboss.org/forge/view"
+	xmlns:m="http://code.google.com/p/gmaps4jsf/"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{zoneBean.id}" />
+		<f:event type="preRenderView" listener="#{zoneBean.retrieve}" />
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Visualizar zona de cobertura" />
+
+	<ui:define name="header">
+		Zona de Cobertura
+	</ui:define>
+
+	<ui:define name="subheader">
+		Visualizar Existente Zona
+	</ui:define>
+
+	<ui:define name="footer" />
+
+	<ui:define name="main">
+		<h:panelGrid columnClasses="label,component,required" columns="3">
+			<h:outputLabel for="zoneBeanZoneLat" value="Lat:" />
+			<h:outputText id="zoneBeanZoneLat" value="#{zoneBean.zone.lat}" />
+			<h:outputText />
+			<h:outputLabel for="zoneBeanZoneLng" value="Lng:" />
+			<h:outputText id="zoneBeanZoneLng" value="#{zoneBean.zone.lng}" />
+			<h:outputText />
+			<h:outputLabel for="zoneBeanZoneName" value="Nombre:" />
+			<h:outputText id="zoneBeanZoneName" value="#{zoneBean.zone.name}" />
+			<h:outputText />
+			<h:outputLabel for="zoneBeanZoneRadius"
+				value="Radio Alcance (En Km.):" />
+			<h:outputText id="zoneBeanZoneRadius" value="#{zoneBean.zone.radius}" />
+			<h:outputText />
+			<h:outputLabel for="zoneBeanZoneUsers" value="Usuarios:" />
+			<h:dataTable id="zoneBeanZoneUsers" styleClass="data-table"
+				value="#{forgeview:asList(zoneBean.zone.users)}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Nombre" />
+					</f:facet>
+					<h:link outcome="/user/view">
+						<f:param name="id" value="#{_item.idUser}" />
+						<h:outputText id="itemName" value="#{_item.name}" />
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Apellido" />
+					</f:facet>
+					<h:link outcome="/user/view">
+						<f:param name="id" value="#{_item.idUser}" />
+						<h:outputText id="itemLastName" value="#{_item.lastName}" />
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Email" />
+					</f:facet>
+					<h:link outcome="/user/view">
+						<f:param name="id" value="#{_item.idUser}" />
+						<h:outputText id="itemEmail" value="#{_item.email}" />
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Es Trabajador?" />
+					</f:facet>
+					<h:link outcome="/user/view">
+						<f:param name="id" value="#{_item.idUser}" />
+						<h:outputText id="itemIsworker" value="#{_item.isworker}" />
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Está Activo?" />
+					</f:facet>
+					<h:link outcome="/user/view">
+						<f:param name="id" value="#{_item.idUser}" />
+						<h:outputText id="itemIsActive" value="#{_item.isActive}" />
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<h:outputText />
+		</h:panelGrid>
+		<h:form id="form">
+			<m:map width="600px" height="600px" latitude="#{zoneBean.zone.lat}"
+				longitude="#{zoneBean.zone.lng}" zoom="15">
+				<m:marker draggable="false" latitude="#{zoneBean.zone.lat}"
+					longitude="#{zoneBean.zone.lng}">
+					<m:htmlInformationWindow htmlText="#{zoneBean.zone.name}" />
+				</m:marker>
+				<m:circle latitude="#{zoneBean.zone.lat}"
+					longitude="#{zoneBean.zone.lng}" lineWidth="1"
+					hexStrokeColor="#cc0033" raduis="#{zoneBean.zone.radius}">
+				</m:circle>
+			</m:map>
+		</h:form>
+		<div class="buttons">
+			<h:link value="Ver Todo" outcome="search"
+				styleClass="btn btn-primary" />
+			<h:link value="Editar" outcome="create" includeViewParams="true"
+				styleClass="btn btn-primary" />
+			<h:link value="Crear Nuevo" outcome="create"
+				styleClass="btn btn-primary" />
+		</div>
+	</ui:define>
+
+</ui:composition>

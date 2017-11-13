@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:forgeview="http://jboss.org/forge/view"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	template="/resources/scaffold/pageFrontTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{frontCachueloBean.id}" />
+		<f:event type="preRenderView" listener="#{frontCachueloBean.retrieve}" />
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Crear Cachuelo" />
+
+	<ui:define name="header">
+		Cachuelo
+	</ui:define>
+
+	<ui:define name="subheader">
+		<c:choose>
+			<c:when test="#{!empty frontCachueloBean.id}">
+				Editar cachuelo existente
+			</c:when>
+			<c:otherwise>
+				Crear nuevo Cachuelo
+			</c:otherwise>
+		</c:choose>
+	</ui:define>
+
+	<ui:define name="footer" />
+
+	<ui:define name="main">
+		<h:form id="create">
+			<h:messages globalOnly="true" styleClass="error" />
+			<h:panelGrid columnClasses="label,component,required" columns="3">
+				<h:outputLabel for="cachueloBeanCachueloTypecachuelo"
+					value="Tipo de Cachuelo:" />
+				<h:panelGroup>
+					<h:selectOneMenu converter="#{typecachueloBean.converter}"
+						id="cachueloBeanCachueloTypecachuelo"
+						value="#{frontCachueloBean.cachuelo.typecachuelo}">
+						<f:selectItem />
+						<f:selectItems itemLabel="#{forgeview:display(_item)}"
+							itemValue="#{_item}" value="#{typecachueloBean.all}" var="_item" />
+					</h:selectOneMenu>
+					<h:message for="cachueloBeanCachueloTypecachuelo"
+						styleClass="error" />
+				</h:panelGroup>
+				<h:outputText />
+				<h:outputLabel for="cachueloBeanCachueloLocation" value="Ubicación:" />
+				<h:panelGroup>					
+					<h:selectOneMenu converter="#{frontLocationBean.converter}"
+						id="cachueloBeanCachueloLocation"
+						value="#{frontCachueloBean.cachuelo.location}">
+						<f:selectItem />
+						<f:selectItems itemLabel="#{forgeview:display(_item)}"
+							itemValue="#{_item}" value="#{frontLocationBean.all}" var="_item" />
+					</h:selectOneMenu>
+					<h:link id="brandLink" outcome="/frontend/location/create.xhtml" styleClass="btn btn-primary">Crear nueva ubicación</h:link>
+					<h:message for="cachueloBeanCachueloLocation" styleClass="error" />					
+				</h:panelGroup>
+				<h:outputText />
+				<h:outputLabel for="cachueloBeanCachueloToBeCompleteAt"
+					value="Fecha de Ejecución:" />
+				<h:panelGroup>
+					<rich:calendar value="#{frontCachueloBean.selectedDate}"
+						locale="#{frontCachueloBean.locale}" popup="#{frontCachueloBean.popup}"
+						showApplyButton="true" datePattern="#{frontCachueloBean.pattern}"
+						id="cachueloBeanCachueloToBeCompleteAt" cellWidth="22px"
+						cellHeight="22px" style="width:200px" />
+					<h:message for="cachueloBeanCachueloToBeCompleteAt"
+						styleClass="error" />
+				</h:panelGroup>
+				<h:outputText />
+				<h:outputLabel for="cachueloBeanCachueloName" value="Nombre del cachuelo:" />
+				<h:panelGroup>
+					<h:inputText id="cachueloBeanCachueloName" maxLength="20"
+						required="true" value="#{frontCachueloBean.cachuelo.name}" />
+					<h:message for="cachueloBeanCachueloName" styleClass="error" />
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="cachueloBeanCachueloPrice" value="Precio:" />
+				<h:panelGroup>
+					<rich:inputNumberSlider id="cachueloBeanCachueloPrice"
+						value="#{frontCachueloBean.cachuelo.price}" maxValue="100" step="5"
+						showToolTip="true" />
+					<h:message for="cachueloBeanCachueloPrice" styleClass="error" />
+				</h:panelGroup>
+				<h:outputText />
+				<h:outputLabel for="cachueloBeanCachueloDescription"
+					value="Descripción:" />
+				<h:panelGroup>
+					<h:inputText id="cachueloBeanCachueloDescription" maxLength="300"
+						value="#{frontCachueloBean.cachuelo.description}" />
+					<h:message for="cachueloBeanCachueloDescription" styleClass="error" />
+				</h:panelGroup>
+				<h:outputText value="*"/>				
+				<h:outputLabel for="upload" value="Imagen:" />
+				<h:panelGroup>
+					<h:panelGrid columns="2" columnClasses="top,top">
+						<rich:fileUpload fileUploadListener="#{frontCachueloBean.listener}"
+							addLabel="Agregar" uploadLabel="Subir" clearLabel="Limpiar"
+							clearAllLabel="Limpiar todos" deleteLabel="Eliminar"
+							doneLabel="Listo"
+							maxFilesQuantity="#{frontCachueloBean.uploadsAvailable}"
+							style="width:300px; height:220px;" id="upload"
+							acceptedTypes="jpg, gif, png, bmp"
+							immediateUpload="false"
+							disabled="#{frontCachueloBean.uploadDisabled}"
+							allowFlash="true">
+							<a4j:ajax event="uploadcomplete" execute="@none" render="info, upload" />
+						</rich:fileUpload>
+						<h:panelGroup id="info">
+							<rich:panel bodyClass="info">
+								<f:facet name="header">
+									<h:outputText value="Info de archivos subidos" />
+								</f:facet>
+								<h:outputText value="No hay archivos subidos"
+									rendered="#{frontCachueloBean.size==0}" />
+								<rich:dataGrid columns="1" value="#{frontCachueloBean.files}"
+									var="file" rowKeyVar="row">
+									<rich:panel bodyClass="rich-laguna-panel-no-header">
+										<h:panelGrid columns="2">
+											<img
+												src="http://#{applicationBean.ipAddress}/cachimages/#{file.name}"
+												alt="Porsiacaso" title="Titulo" height="100px" width="100px" />
+										</h:panelGrid>
+									</rich:panel>
+								</rich:dataGrid>
+							</rich:panel>
+							<a4j:commandButton action="#{frontCachueloBean.clearUploadData}"
+								render="info, upload" value="Limpiar archivos subidos"
+								rendered="#{frontCachueloBean.size>0}" />
+						</h:panelGroup>
+					</h:panelGrid>
+
+					<h:message for="upload" styleClass="error" />
+				</h:panelGroup>
+				<h:outputText />
+			</h:panelGrid>
+
+			<div class="buttons">
+				<h:commandLink value="Guardar" action="#{frontCachueloBean.update}"
+					styleClass="btn btn-primary" />
+				<c:choose>
+					<c:when test="#{!empty frontCachueloBean.id}">
+						<h:link value="Cancelar" outcome="view"
+							styleClass="btn btn-primary">
+							<f:param name="id" value="#{frontCachueloBean.id}" />
+						</h:link>
+						<h:commandLink value="Borrar" action="#{frontCachueloBean.delete}"
+							styleClass="btn btn-primary" />
+					</c:when>
+					<c:otherwise>
+						<h:commandLink value="Cancelar"
+							action="#{frontCachueloBean.clearUploadDataRedirect}"
+							styleClass="btn btn-primary" />
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

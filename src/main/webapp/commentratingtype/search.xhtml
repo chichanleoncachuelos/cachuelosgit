@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="page" value="#{commentratingtypeBean.page}"/>
+		<f:event type="preRenderView" listener="#{commentratingtypeBean.paginate}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Buscar tipo de comentario y rating"/>
+
+	<ui:define name="header">
+		Tipo de comentario y rating
+	</ui:define>
+
+	<ui:define name="subheader">
+		Buscar tipo de comentario y rating
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:form id="search">
+			<f:validateBean disabled="true">
+				<h:panelGroup styleClass="search">
+
+					<h:panelGrid columnClasses="label,component,required" columns="3">
+						<h:outputLabel for="commentratingtypeBeanExampleName" value="Nombre:"/>
+						<h:panelGroup>
+							<h:inputText id="commentratingtypeBeanExampleName" maxLength="20" value="#{commentratingtypeBean.example.name}"/>
+							<h:message for="commentratingtypeBeanExampleName" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="commentratingtypeBeanExampleDescription" value="Descripción:"/>
+						<h:panelGroup>
+							<h:inputText id="commentratingtypeBeanExampleDescription" maxLength="250" value="#{commentratingtypeBean.example.description}"/>
+							<h:message for="commentratingtypeBeanExampleDescription" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+					</h:panelGrid>
+					<h:panelGroup styleClass="buttons">
+						<h:commandLink value="Buscar" action="#{commentratingtypeBean.search}" styleClass="btn btn-primary"/>
+						<h:commandLink value="Crear Nuevo" action="#{commentratingtypeBean.create}" styleClass="btn btn-primary"/>
+					</h:panelGroup>
+				</h:panelGroup>
+			</f:validateBean>
+			
+			<h:dataTable id="commentratingtypeBeanPageItems" styleClass="data-table" value="#{commentratingtypeBean.pageItems}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Nombre"/>
+					</f:facet>
+					<h:link outcome="/commentratingtype/view">
+						<f:param name="id" value="#{_item.idCommentType}"/>
+						<h:outputText id="itemName" value="#{_item.name}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Descripción"/>
+					</f:facet>
+					<h:link outcome="/commentratingtype/view">
+						<f:param name="id" value="#{_item.idCommentType}"/>
+						<h:outputText id="itemDescription" value="#{_item.description}"/>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<ui:include src="/resources/scaffold/paginator.xhtml">
+				<ui:param name="paginatorBean" value="#{commentratingtypeBean}"/>
+			</ui:include>
+		</h:form>
+			
+	</ui:define>
+
+</ui:composition>

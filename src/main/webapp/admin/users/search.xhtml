@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/scaffold/adminPageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="page" value="#{usersBean.page}"/>
+		<f:event type="preRenderView" listener="#{usersBean.paginate}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Buscar Administradores"/>
+
+	<ui:define name="header">
+		Administradores
+	</ui:define>
+
+	<ui:define name="subheader">
+		Buscar Administradores
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:form id="search">
+			<f:validateBean disabled="true">
+				<h:panelGroup styleClass="search">
+
+					<h:panelGrid columnClasses="label,component,required" columns="3">
+						<h:outputLabel for="usersBeanExampleUsername" value="Nombre de Usuario:"/>
+						<h:panelGroup>
+							<h:inputText id="usersBeanExampleUsername" value="#{usersBean.example.username}"/>
+							<h:message for="usersBeanExampleUsername" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						
+					</h:panelGrid>
+					<h:panelGroup styleClass="buttons">
+						<h:commandLink value="Buscar" action="#{usersBean.search}" styleClass="btn btn-primary"/>
+						<h:commandLink value="Crear nuevo" action="#{usersBean.create}" styleClass="btn btn-primary"/>
+					</h:panelGroup>
+				</h:panelGroup>
+			</f:validateBean>
+			
+			<h:dataTable id="usersBeanPageItems" styleClass="data-table" value="#{usersBean.pageItems}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Nombre de usuario"/>
+					</f:facet>
+					<h:link outcome="/admin/users/view">
+						<f:param name="id" value="#{_item.username}"/>
+						<h:outputText id="itemUsername" value="#{_item.username}"/>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<ui:include src="/resources/scaffold/paginator.xhtml">
+				<ui:param name="paginatorBean" value="#{usersBean}"/>
+			</ui:include>
+		</h:form>
+			
+	</ui:define>
+
+</ui:composition>

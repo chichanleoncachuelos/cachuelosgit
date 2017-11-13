@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:forgeview="http://jboss.org/forge/view"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="page" value="#{commentratingBean.page}"/>
+		<f:event type="preRenderView" listener="#{commentratingBean.paginate}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Buscar comentrios y ratings"/>
+
+	<ui:define name="header">
+		Comentarios y Ratings
+	</ui:define>
+
+	<ui:define name="subheader">
+		Buscar Comentarios y Ratings
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:form id="search">
+			<f:validateBean disabled="true">
+				<h:panelGroup styleClass="search">
+
+					<h:panelGrid columnClasses="label,component,required" columns="3">
+						<h:outputLabel for="commentratingBeanExampleCommentratingtype" value="Tipo Comentario y Rating:"/>
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{commentratingtypeBean.converter}" id="commentratingBeanExampleCommentratingtype" value="#{commentratingBean.example.commentratingtype}">
+								<f:selectItem/>
+								<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{commentratingtypeBean.all}" var="_item"/>
+							</h:selectOneMenu>
+							<h:message for="commentratingBeanExampleCommentratingtype" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="commentratingBeanExampleCachuelo" value="Cachuelo:"/>
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{cachueloBean.converter}" id="commentratingBeanExampleCachuelo" value="#{commentratingBean.example.cachuelo}">
+								<f:selectItem/>
+								<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{cachueloBean.all}" var="_item"/>
+							</h:selectOneMenu>
+							<h:message for="commentratingBeanExampleCachuelo" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="commentratingBeanExampleUser" value="Usuario:"/>
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{userBean.converter}" id="commentratingBeanExampleUser" value="#{commentratingBean.example.user}">
+								<f:selectItem/>
+								<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{userBean.all}" var="_item"/>
+							</h:selectOneMenu>
+							<h:message for="commentratingBeanExampleUser" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>						
+						<h:outputLabel for="commentratingBeanExampleComment" value="Comentario:"/>
+						<h:panelGroup>
+							<h:inputText id="commentratingBeanExampleComment" maxLength="300" value="#{commentratingBean.example.comment}"/>
+							<h:message for="commentratingBeanExampleComment" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+					</h:panelGrid>
+					<h:panelGroup styleClass="buttons">
+						<h:commandLink value="Buscar" action="#{commentratingBean.search}" styleClass="btn btn-primary"/>
+					</h:panelGroup>
+				</h:panelGroup>
+			</f:validateBean>
+			
+			<h:dataTable id="commentratingBeanPageItems" styleClass="data-table" value="#{commentratingBean.pageItems}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Fecha Creación"/>
+					</f:facet>
+					<h:link outcome="/commentrating/view">
+						<f:param name="id" value="#{_item.idComment}"/>
+						<h:outputText id="itemCreatedAt" value="#{_item.createdAt}">
+							<f:convertDateTime type="both"/>
+						</h:outputText>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Comentario"/>
+					</f:facet>
+					<h:link outcome="/commentrating/view">
+						<f:param name="id" value="#{_item.idComment}"/>
+						<h:outputText id="itemComment" value="#{_item.comment}"/>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<ui:include src="/resources/scaffold/paginator.xhtml">
+				<ui:param name="paginatorBean" value="#{commentratingBean}"/>
+			</ui:include>
+		</h:form>
+			
+	</ui:define>
+
+</ui:composition>

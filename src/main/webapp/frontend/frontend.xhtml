@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:forgeview="http://jboss.org/forge/view"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	template="/mail/welcomePageTemplate.xhtml"
+	xmlns:p="http://primefaces.org/ui">
+
+	<f:metadata>
+		<f:event type="preRenderView"
+			listener="#{simpleLoginBean.checkIfLoginStatusIsTrue}" />
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Bienvenido a Cachuelos" />
+
+	<ui:define name="header">
+		Bienvenido a Cachuelos
+	</ui:define>
+
+
+	<ui:define name="footer" />
+
+	<ui:define name="main">
+		<h:form id="search">
+			<p:growl id="growl" showDetail="true" />
+			<f:validateBean disabled="true">
+				<h:panelGroup>
+					<h:panelGrid columnClasses="label,component,required" columns="3">
+						<h:outputLabel for="simpleBeanEmail" value="Correo Electrónico:" />
+						<h:panelGroup>
+							<h:inputText id="simpleBeanEmail" required="true" maxLength="30"
+								value="#{simpleLoginBean.loginname}" />
+							<h:message for="simpleBeanEmail" styleClass="error" />
+						</h:panelGroup>
+						<h:outputText />
+						<h:outputLabel for="simpleBeanPassword" value="Password:" />
+						<h:panelGroup>
+							<h:inputSecret id="simpleBeanPassword" required="true"
+								maxLength="20" value="#{simpleLoginBean.password}" />
+							<h:commandButton type="submit" value="Search"
+								style="display: none" action="#{simpleLoginBean.checkValidUser}"
+								id="hiddenLoginButton" />
+							<h:message for="simpleBeanPassword" styleClass="error" />
+						</h:panelGroup>
+						<h:outputText />
+						<h:outputLabel
+							value="#{simpleLoginBean.messageLogin} #{simpleLoginBean.messageRegister}"
+							styleClass="error" />
+					</h:panelGrid>
+					<h:panelGroup styleClass="buttons">
+						<h:commandLink value="Ingresar"
+							action="#{simpleLoginBean.checkValidUser}"
+							styleClass="btn btn-primary" />
+						<h:link id="brandLink" outcome="/frontend/user/create.xhtml"
+							styleClass="btn btn-primary">Registrarse</h:link>
+						<h:link id="facebookLink"
+							outcome="/frontend/user/facebooklogin.xhtml"
+							styleClass="btn btn-primary">Iniciar con Facebook</h:link>
+					</h:panelGroup>
+				</h:panelGroup>
+			</f:validateBean>
+			<h:inputHidden id="hastofacebooklogout" value="#{simpleLoginBean.hasToFacebookLogout}" />
+			<rich:hotKey key="return"
+				handler="#{rich:element('hiddenLoginButton')}.click()"
+				selector="#simpleBeanPassword" />
+		</h:form>
+		<script>
+  function statusChangeCallback(response) {
+	console.log('statusChangeCallbackFront');
+	console.log(response);		
+	var hastofacebooklogout=document.getElementById('search:hastofacebooklogout').value;
+	if (hastofacebooklogout ==1) {
+		if (response.status === 'connected') {
+			fbLogout();	
+		}		
+	}			
+  }
+
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '548974548583355',
+      cookie: true,
+      xfbml: true,
+      version    : 'v2.2'
+    });
+	FB.getLoginStatus(function(response) {
+		    statusChangeCallback(response);
+	});
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+
+	function fbLogout() {
+		console.log('log out begin');
+		FB.logout(function(response) {
+			// user is now logged out
+			console.log('log out succeeded');
+		});
+	}
+</script>
+	</ui:define>
+
+</ui:composition>

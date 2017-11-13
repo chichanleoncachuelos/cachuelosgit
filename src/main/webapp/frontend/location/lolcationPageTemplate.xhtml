@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+	<title>#{empty pageTitle ? 'Page Title' : pageTitle}</title>
+	<link rel="icon" href="#{resource['favicon.png']}" />
+	<h:outputStylesheet name="bootstrap.css" />
+	<h:outputStylesheet name="forge-style.css" />
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBJLYOn_FsXCKpDQX2VQXMskUcuUW1rYus"></script>
+</h:head>
+
+<h:body>
+
+	<h:form id="global">
+		<div class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+					<h:link id="brandLink" outcome="/frontend/homecachuelos/view.xhtml"
+						styleClass="brand">Cachuelos</h:link>
+					<div class="nav-collapse collapse">
+						<ul class="nav">
+							<li><a
+								href="https://play.google.com/store/apps/details?id=com.trabajo.cachuelos">Cachuelos
+									G. Play</a></li>
+							<li><h:link outcome="/frontend/user/view">
+									<f:param name="id" value="#{simpleLoginBean.userLogged.idUser}" />
+									<h:outputText id="itemMineComment"
+										value="#{simpleLoginBean.userLogged.name} #{simpleLoginBean.userLogged.lastName}" />
+								</h:link></li>
+							<li><h:commandLink action="#{simpleLoginBean.logOut}"
+									value="Cerrar Sesión" styleClass="btn btn-primary"></h:commandLink>
+							</li>
+							<li><p:commandButton id="load" value="nada"
+									style="display:none"
+									actionListener="#{simpleLoginBean.listMyMessagesForChat}" /></li>
+
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</h:form>
+
+	<div class="container forgecontainer">
+		<div id="navigation">
+			<h:link id="homeLink" outcome="/frontend/homecachuelos/view.xhtml">
+				<img src="#{resource['tareas.png']}" alt="Forge... get hammered"
+					border="0" />
+			</h:link>
+			<p:tieredMenu style="width:150px">
+				<p:submenu label="Mis Cachuelos">
+					<p:menuitem value="Explorar Cachuelos"
+						outcome="/frontend/cachuelo/search" />
+					<p:menuitem value="Mis Ofertas" outcome="/frontend/offer/search" />
+					<p:menuitem value="Mis Ubicaciones"
+						outcome="/frontend/location/search" />
+					<p:menuitem value="Imagenes de Cachuelos"
+						outcome="/frontend/imagecachuelo/search" />
+				</p:submenu>
+				<p:separator />
+				<p:menuitem value="Publicar Cachuelo"
+					outcome="/frontend/cachuelo/create" />
+				<p:separator />
+				<p:menuitem value="Mis Mensajes" outcome="/frontend/chat/search" />
+				<p:separator />
+				<p:submenu label="Mi Comunidad">
+					<p:menuitem value="Explorar Trabajadores"
+						outcome="/frontend/user/search" />
+					<p:menuitem value="Comentarios y Ratings"
+						outcome="/frontend/commentrating/search" />
+				</p:submenu>
+				<p:separator />
+				<p:menuitem value="Mi Perfil" outcome="/frontend/user/view">
+					<f:param name="id" value="#{simpleLoginBean.userLogged.idUser}" />
+				</p:menuitem>
+			</p:tieredMenu>
+		</div>
+		<div id="content">
+			<h1>
+				<ui:insert name="header" />
+			</h1>
+			<h2>
+				<ui:insert name="subheader" />
+			</h2>
+
+			<ui:insert name="main" />
+		</div>
+	</div>
+
+	<footer>
+		<div id="footer-wrapper">
+			<p>Footer</p>
+		</div>
+	</footer>
+	<script src="getlocation.js">
+	</script>
+	<script type="text/javascript">
+	function myTimeoutFunction()
+	{
+		document.getElementById('global:load').click();
+		setTimeout(myTimeoutFunction, 15000);
+	}
+	myTimeoutFunction();
+	</script>
+</h:body>
+</html>

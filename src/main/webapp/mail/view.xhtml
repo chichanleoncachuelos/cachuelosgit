@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/mail/welcomePageTemplate.xhtml">
+
+	<ui:param name="pageTitle" value="Bienvenido" />
+
+	<ui:define name="header">
+		Bienvenido
+	</ui:define>
+
+	<ui:define name="welcomemsg">
+		Registro Satisfactorio
+	</ui:define>
+
+	<ui:define name="footer" />
+
+	<ui:define name="sidedata">
+		<h:panelGrid columnClasses="label,component" columns="2">
+			<h:outputLabel for="emailNameConfirm" value="Nombre:" />
+			<h:outputText id="emailNameConfirm" value="${name}" />
+			<h:outputLabel for="emailLastNameConfirm" value="Apellido:" />
+			<h:outputText id="emailLastNameConfirm" value="${lastname}" />
+			<h:outputLabel for="emailAddressConfirm" value="Email:" />
+			<h:outputText id="emailAddressConfirm" value="${email}" />
+		</h:panelGrid>
+	</ui:define>
+
+</ui:composition>

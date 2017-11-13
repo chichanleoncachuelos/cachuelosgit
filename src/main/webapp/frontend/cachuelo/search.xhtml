@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:forgeview="http://jboss.org/forge/view"
+	template="/resources/scaffold/pageFrontTemplate.xhtml"
+	xmlns:p="http://primefaces.org/ui">
+
+	<f:metadata>
+		<f:viewParam name="page" value="#{frontCachueloBean.page}" />
+		<f:event type="preRenderView" listener="#{frontCachueloBean.paginate}" />
+		<f:event type="preRenderView"
+			listener="#{simpleLoginBean.checkIfLoginStatusIsFalse}" />
+	</f:metadata>
+
+
+	<ui:param name="pageTitle" value="Buscar Cachuelos" />
+
+	<ui:define name="header">
+		Cachuelo
+	</ui:define>
+
+	<ui:define name="subheader">
+		Buscar Cachuelos
+	</ui:define>
+
+	<ui:define name="footer" />
+
+	<ui:define name="main">
+		<h:form id="search">
+			<f:validateBean disabled="true">
+				<h:panelGroup styleClass="search">
+
+					<h:panelGrid columnClasses="label,component,required" columns="3">
+						<h:outputLabel for="cachueloBeanExampleTypecachuelo"
+							value="Tipo de Cachuelo:" />
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{typecachueloBean.converter}"
+								id="cachueloBeanExampleTypecachuelo"
+								value="#{frontCachueloBean.example.typecachuelo}">
+								<f:selectItem />
+								<f:selectItems itemLabel="#{forgeview:display(_item)}"
+									itemValue="#{_item}" value="#{typecachueloBean.all}"
+									var="_item" />
+							</h:selectOneMenu>
+							<h:message for="cachueloBeanExampleTypecachuelo"
+								styleClass="error" />
+						</h:panelGroup>
+						<h:outputText />
+						<h:outputLabel for="cachueloBeanExampleCachuelostate"
+							value="Estado del Cachuelo:" />
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{frontCachuelostateBean.converter}"
+								id="cachueloBeanExampleCachuelostate"
+								value="#{frontCachueloBean.example.cachuelostate}">
+								<f:selectItem />
+								<f:selectItems itemLabel="#{forgeview:display(_item)}"
+									itemValue="#{_item}" value="#{frontCachuelostateBean.all}"
+									var="_item" />
+							</h:selectOneMenu>
+							<h:message for="cachueloBeanExampleCachuelostate"
+								styleClass="error" />
+						</h:panelGroup>
+						<h:outputText />
+						<h:outputLabel for="cachueloBeanExampleLocation"
+							value="Ubicacion:" />
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{frontLocationBean.converter}"
+								id="cachueloBeanExampleLocation"
+								value="#{frontCachueloBean.example.location}">
+								<f:selectItem />
+								<f:selectItems itemLabel="#{forgeview:display(_item)}"
+									itemValue="#{_item}" value="#{frontLocationBean.all}"
+									var="_item" />
+							</h:selectOneMenu>
+							<h:message for="cachueloBeanExampleLocation" styleClass="error" />
+						</h:panelGroup>
+						<h:outputText />
+						<h:outputLabel for="cachueloBeanExampleName"
+							value="Nombre del Cachuelo:" />
+						<h:panelGroup>
+							<h:inputText id="cachueloBeanExampleName" maxLength="20"
+								value="#{frontCachueloBean.example.name}" />
+							<h:message for="cachueloBeanExampleName" styleClass="error" />
+						</h:panelGroup>
+						<h:outputText />
+					</h:panelGrid>
+					<h:panelGroup styleClass="buttons">
+						<h:commandLink value="Buscar" action="#{frontCachueloBean.search}"
+							styleClass="btn btn-primary" />
+						<h:commandLink value="Crear Nuevo"
+							action="#{frontCachueloBean.create}" styleClass="btn btn-primary" />
+					</h:panelGroup>
+				</h:panelGroup>
+			</f:validateBean>
+			<p:growl id="growl" life="5000" />
+			<p:panel id="mapcachu" header="Ver en mapa" toggleable="true"
+				toggleSpeed="500">
+				<p:gmap id="gmap" center="-12.071886098955, -77.0860" zoom="13"
+					type="ROADMAP" style="width:100%;height:650px"
+					model="#{simpleLoginBean.simpleModel}">
+					<p:ajax event="overlaySelect"
+						listener="#{simpleLoginBean.onMarkerSelect}" update="growl" />
+					<p:gmapInfoWindow id="infoWindow">
+						<p:outputPanel
+							style="text-align: center; display: block; margin: auto">
+							<h:dataTable id="cachueloBeanPageItemsPopup"
+								styleClass="data-table"
+								value="#{simpleLoginBean.listCachueloLocation}" var="_item">
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Lista de Cachuelos" />
+									</f:facet>
+									<h:link outcome="/frontend/cachuelo/view">
+										<f:param name="id" value="#{_item.idCachuelo}" />
+										<h:outputText id="itemName" value="#{_item.name}" />
+									</h:link>
+								</h:column>
+							</h:dataTable>
+						</p:outputPanel>
+					</p:gmapInfoWindow>
+				</p:gmap>
+			</p:panel>
+			<p:panel id="listcachu" header="Ver en lista" toggleable="true"
+				toggleSpeed="500" collapsed="true">
+				<h:dataTable id="cachueloBeanPageItems" styleClass="data-table"
+					value="#{frontCachueloBean.pageItems}" var="_item">
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Fecha de Creacion" />
+						</f:facet>
+						<h:link outcome="/frontend/cachuelo/view">
+							<f:param name="id" value="#{_item.idCachuelo}" />
+							<h:outputText id="itemCreatedAt" value="#{_item.createdAt}">
+								<f:convertDateTime type="both" />
+							</h:outputText>
+						</h:link>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Nombre del Cachuelo" />
+						</f:facet>
+						<h:link outcome="/frontend/cachuelo/view">
+							<f:param name="id" value="#{_item.idCachuelo}" />
+							<h:outputText id="itemName" value="#{_item.name}" />
+						</h:link>
+					</h:column>
+				</h:dataTable>
+				<ui:include src="/resources/scaffold/paginator.xhtml">
+					<ui:param name="paginatorBean" value="#{frontCachueloBean}" />
+				</ui:include>
+			</p:panel>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
