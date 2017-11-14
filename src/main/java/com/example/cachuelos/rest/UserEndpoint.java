@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.naming.InitialContext;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -19,9 +20,9 @@ import org.json.JSONObject;
 import com.example.cachuelosfrontend.model.User;
 import com.example.cachuelos.utils.Constants;
 import com.example.cachuelos.utils.PasswordEncrypterSHABase64;
-import com.example.cachuelos.utils.RegistrationEmail;
 import com.example.cachuelos.utils.Utility;
 import com.example.cachuelos.view.ApplicationBean;
+import com.example.cachuelos.view.RegistrationEmail;
 
 /**
  * 
@@ -35,6 +36,9 @@ public class UserEndpoint {
 	
 	@Inject
 	ApplicationBean applicationBean;
+	
+	@Inject
+	RegistrationEmail registrationEmail;
 
 	@POST
 	public String create(String input) {
@@ -151,7 +155,14 @@ public class UserEndpoint {
 		}
 		String host = applicationBean.getIpAddress();
 		System.out.println("host: "+host +"   ////fin host");
-		RegistrationEmail.sendRegistrationMail(secretkey, email,host);
+		try {
+//			RegistrationEmail registrationEmail = new RegistrationEmail();
+//			RegistrationEmail registrationEmail = (RegistrationEmail) new InitialContext().lookup("java:comp/env/registrationEmail");
+			registrationEmail.send(secretkey, email,host);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return us.getIdUser();
 	}
 

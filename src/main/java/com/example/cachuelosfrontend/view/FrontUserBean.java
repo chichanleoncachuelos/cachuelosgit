@@ -25,6 +25,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.naming.InitialContext;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -50,9 +51,9 @@ import com.example.cachuelosfrontend.model.Workerbytypecachuelo;
 import com.example.cachuelosfrontend.model.Zone;
 import com.example.cachuelosfrontend.utils.Constants;
 import com.example.cachuelosfrontend.utils.PasswordEncrypter;
-import com.example.cachuelos.utils.RegistrationEmail;
 import com.example.cachuelos.view.ApplicationBean;
 import com.example.cachuelos.view.File;
+import com.example.cachuelos.view.RegistrationEmail;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -84,6 +85,9 @@ public class FrontUserBean implements Serializable {
 	
 	@Inject
 	ApplicationBean applicationBean;
+	
+	@Inject
+	RegistrationEmail registrationEmail;
 
 	User userLogged;
 	String  userLoggedPassword;
@@ -223,7 +227,9 @@ public class FrontUserBean implements Serializable {
 							.setMessageRegister(Constants.REGISTER_SUCCESS);
 					String host = applicationBean.getIpAddress();
 					System.out.println("host: "+host +"   ////fin host");
-					RegistrationEmail.sendRegistrationMail(secretkey,
+//					RegistrationEmail registrationEmail = new RegistrationEmail();
+//					RegistrationEmail registrationEmail = (RegistrationEmail) new InitialContext().lookup("java:comp/env/registrationEmail");
+					registrationEmail.send(secretkey,
 							this.user.getEmail(),host);
 				} else {
 					simpleLoginBean
