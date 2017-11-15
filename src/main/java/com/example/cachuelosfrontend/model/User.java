@@ -80,6 +80,8 @@ public class User implements java.io.Serializable {
 		this.isActive = isActive;
 		this.password = password;
 		this.createdAt = createdAt;
+		this.dni = "00000000";
+		
 	}
 
 	public User(Zone zone, String name, String lastName, String email,
