@@ -781,6 +781,9 @@ public class SimpleLoginBean implements Serializable {
 		us.setSecretkey(secretkey);
 		us.setFacebookid(facebookid);
 		us.setFacebooktoken(facebooktoken);
+		us.setDni("00000000");
+		Zone zone = em.find(Zone.class, 1);
+		us.setZone(zone);
 		try {
 			tx.begin();
 			em.persist(us);
