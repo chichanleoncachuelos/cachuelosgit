@@ -370,7 +370,7 @@ public class FrontDigitalizeddocumentBean implements Serializable
 		file.setData(item.getData());
 		files.add(file);
 		//cambbios		
-		FileOutputStream os = new FileOutputStream(System.getenv("OPENSHIFT_DATA_DIR") + secretKey+item.getName());
+		FileOutputStream os = new FileOutputStream("/opt/app-root/src/" + secretKey+item.getName());
 		os.write(file.getData());
        os.flush();
        os.close();
@@ -381,7 +381,7 @@ public class FrontDigitalizeddocumentBean implements Serializable
 	public String clearUploadData() {	
 		files.clear();		
         //delete if exists
-		Path path = FileSystems.getDefault().getPath(System.getenv("OPENSHIFT_DATA_DIR"), digitalizeddocument.getUrlImage());
+		Path path = FileSystems.getDefault().getPath("/opt/app-root/src/", digitalizeddocument.getUrlImage());
         boolean success;
 		try {
 			success = Files.deleteIfExists(path);
