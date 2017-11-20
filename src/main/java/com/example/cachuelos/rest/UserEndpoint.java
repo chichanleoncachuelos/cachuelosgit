@@ -234,9 +234,9 @@ public class UserEndpoint {
 		User entity;
 		try {
 			entity = findByIdQuery.getSingleResult();
-			String host = applicationBean.getIpAddress();
-			System.out.println("host: "+host +"   ////fin host");
-			entity.setName(host);
+//			String host = applicationBean.getIpAddress();
+//			System.out.println("host: "+host +"   ////fin host");
+//			entity.setName(host);
 		} catch (NoResultException nre) {
 			entity = null;
 		}
