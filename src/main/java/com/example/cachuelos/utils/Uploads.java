@@ -37,7 +37,8 @@ public class Uploads extends HttpServlet {
         fileName = getFileName(part);
        
         //FileOutputStream os = new FileOutputStream(System.getenv("OPENSHIFT_DATA_DIR") + secretKey+fileName);
-        FileOutputStream os = new FileOutputStream( "c://cachuelosimages/" + secretKey+fileName);
+        //FileOutputStream os = new FileOutputStream( "c://cachuelosimages/" + secretKey+fileName);
+        FileOutputStream os = new FileOutputStream( "/opt/app-root/src/" + secretKey+fileName);
         byte[] bytes = new byte[BUFFER_LENGTH];
         int read = 0;
         while ((read = is.read(bytes, 0, BUFFER_LENGTH)) != -1) {
@@ -51,7 +52,8 @@ public class Uploads extends HttpServlet {
 	response.setContentType("application/json");
     PrintWriter out = response.getWriter();
     //out.print(Utility.constructJSON("urlImage", true, secretKey+fileName,System.getenv("OPENSHIFT_DATA_DIR") ));
-    out.print(Utility.constructJSON("urlImage", true, secretKey+fileName,"c://cachuelosimages/" ));
+    //out.print(Utility.constructJSON("urlImage", true, secretKey+fileName,"c://cachuelosimages/" ));
+    out.print(Utility.constructJSON("urlImage", true, secretKey+fileName,"/opt/app-root/src/" ));
     out.flush();
   }
  
@@ -59,7 +61,8 @@ public class Uploads extends HttpServlet {
  
     String filePath = request.getRequestURI();///cachuelos/uploads/1.jpg
     //File file = new File(System.getenv("OPENSHIFT_DATA_DIR") + filePath.replace("/cachimages/",""));
-    File file = new File("c://cachuelosimages/" + filePath.replace("/cachuelos/cachimages",""));
+    //File file = new File("c://cachuelosimages/" + filePath.replace("/cachuelos/cachimages",""));
+    File file = new File("/opt/app-root/src/" + filePath.replace("/cachimages/",""));
     InputStream input = new FileInputStream(file);
  
     response.setContentLength((int) file.length());
