@@ -42,6 +42,7 @@ import com.example.cachuelosfrontend.model.Cachuelo;
 import com.example.cachuelosfrontend.model.Location;
 import com.example.cachuelosfrontend.model.Message;
 import com.example.cachuelosfrontend.model.User;
+import com.example.cachuelosfrontend.model.Zone;
 import com.example.cachuelosfrontend.utils.Constants;
 import com.example.cachuelosfrontend.utils.PasswordEncrypter;
 
