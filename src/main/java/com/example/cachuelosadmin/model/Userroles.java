@@ -59,7 +59,7 @@ public class Userroles  implements java.io.Serializable {
     }
 
     
-    @Column(name="userRoles", nullable=false)
+    @Column(name="userRoles", nullable=false, length = 255)
     public String getUserRoles() {
         return this.userRoles;
     }

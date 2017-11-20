@@ -79,7 +79,7 @@ public class Digitalizeddocument  implements java.io.Serializable {
     }
 
     
-    @Column(name="name", nullable=false)
+    @Column(name="name", nullable=false, length=255)
     public String getName() {
         return this.name;
     }

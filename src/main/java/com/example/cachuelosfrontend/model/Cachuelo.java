@@ -189,7 +189,7 @@ public class Cachuelo implements java.io.Serializable
       this.updatedAt = updatedAt;
    }
 
-   @Column(name = "name", nullable = false, length = 20)
+   @Column(name = "name", nullable = false, length = 200)
    public String getName()
    {
       return this.name;

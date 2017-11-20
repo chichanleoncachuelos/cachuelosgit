@@ -42,7 +42,7 @@ public class Users  implements java.io.Serializable {
      @Id 
 
     
-    @Column(name="username", unique=true, nullable=false)
+    @Column(name="username", unique=true, nullable=false, length = 255)
     public String getUsername() {
         return this.username;
     }
@@ -52,7 +52,7 @@ public class Users  implements java.io.Serializable {
     }
 
     
-    @Column(name="passwd", nullable=false)
+    @Column(name="passwd", nullable=false, length = 255)
     public String getPasswd() {
         return this.passwd;
     }

@@ -918,7 +918,7 @@ public class FrontCachueloBean implements Serializable {
 			try {
 				entityManager.persist(img);
 			} catch (Exception e) {
-				return -1;// error sql
+				return -1;// error sql System.getenv("OPENSHIFT_DATA_DIR")
 			}
 		}
 		return 1;

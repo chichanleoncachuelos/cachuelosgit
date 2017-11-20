@@ -79,7 +79,7 @@ public class User implements java.io.Serializable {
 		this.isworker = isworker;
 		this.isActive = isActive;
 		this.password = password;
-		this.createdAt = createdAt;	
+		this.createdAt = createdAt;
 	}
 
 	public User(Zone zone, String name, String lastName, String email,
