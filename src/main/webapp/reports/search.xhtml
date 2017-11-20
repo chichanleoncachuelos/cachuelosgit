@@ -26,10 +26,10 @@
 		<ui:define name="main">
 		<h:panelGrid columnClasses="label,component,required" columns="3">
 			<h:outputLabel  value="Cachuelos por tipo:"/>
-			<a href="http://#{applicationBean.reportIpAddress}/birt/frameset?__report=por_tipos.rptdesign">Ver el repote</a>
+			<a href="http://#{applicationBean.reportIpAddress}/frameset?__report=por_tipos.rptdesign">Ver el repote</a>
 			<h:outputText/>
 			<h:outputLabel value="Estrellas promedio acerca del trabajador:"/>
-			<a href="http://#{applicationBean.reportIpAddress}/birt/frameset?__report=stars_report.rptdesign">Ver el reporte</a>
+			<a href="http://#{applicationBean.reportIpAddress}/frameset?__report=stars_report.rptdesign">Ver el reporte</a>
 			<h:outputText/>
 			<h:outputLabel value="Mapeo de cachuelos por zona:"/>
 			<h:link outcome="/reports/mapdashboard" value="Ir al visualizador" />
