@@ -207,7 +207,6 @@ public class User implements java.io.Serializable {
 		this.updatedAt = updatedAt;
 	}
 
-	@XmlTransient
 	@Column(name = "picture_full", length = 20)
 	public String getPictureFull() {
 		return this.pictureFull;
@@ -227,7 +226,6 @@ public class User implements java.io.Serializable {
 		this.pictureThumb = pictureThumb;
 	}
 
-	@XmlTransient
 	@Column(name = "isworker", nullable = false)
 	public int getIsworker() {
 		return this.isworker;
