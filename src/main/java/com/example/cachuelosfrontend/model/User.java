@@ -217,7 +217,7 @@ public class User implements java.io.Serializable {
 		this.pictureFull = pictureFull;
 	}
 
-	@XmlTransient
+
 	@Column(name = "picture_thumb", length = 20)
 	public String getPictureThumb() {
 		return this.pictureThumb;
