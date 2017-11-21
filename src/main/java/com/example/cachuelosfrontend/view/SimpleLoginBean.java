@@ -785,6 +785,7 @@ public class SimpleLoginBean implements Serializable {
 		us.setDni("00000000");
 		Zone zone = em.find(Zone.class, 1);
 		us.setZone(zone);
+		us.setPictureThumb("");
 		try {
 			tx.begin();
 			em.persist(us);

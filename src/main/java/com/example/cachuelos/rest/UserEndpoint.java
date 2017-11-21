@@ -18,6 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.example.cachuelosfrontend.model.User;
+import com.example.cachuelosfrontend.model.Zone;
 import com.example.cachuelos.utils.Constants;
 import com.example.cachuelos.utils.PasswordEncrypterSHABase64;
 import com.example.cachuelos.utils.Utility;
@@ -144,6 +145,10 @@ public class UserEndpoint {
 		us.setSecretkey(secretkey);
 		us.setFacebookid(facebookid);
 		us.setFacebooktoken(facebooktoken);
+		us.setDni("00000000");
+		Zone zone = em.find(Zone.class, 1);
+		us.setZone(zone);
+		us.setPictureThumb("");
 		if (isfacebook) {
 			us.setIsActive(1);
 		}

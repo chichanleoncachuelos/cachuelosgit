@@ -221,6 +221,7 @@ public class FrontUserBean implements Serializable {
 						.encryptPassword(this.user.getPassword()));
 				String secretkey = UUID.randomUUID().toString();
 				this.user.setSecretkey(secretkey);
+				this.user.setPictureThumb("");
 				if (!existUser(this.user.getEmail())) {
 					this.entityManager.persist(this.user);
 					simpleLoginBean
