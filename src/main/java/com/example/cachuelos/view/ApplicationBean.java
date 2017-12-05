@@ -70,7 +70,7 @@ public class ApplicationBean implements Serializable {
 		//this.ipAddress = "" + "cachuelos-cachuelos.rhcloud.com";
 		//this.reportIpAddress = "" + "jrs47-cachuelos.rhcloud.com";
 		this.ipAddress = "" + "cachuelos-cachuelos.193b.starter-ca-central-1.openshiftapps.com";
-		this.reportIpAddress = "" + "reportes-reportes.7e14.starter-us-west-2.openshiftapps.com/birt.war";
+		this.reportIpAddress = "" + "reportes-reportes.193b.starter-ca-central-1.openshiftapps.com/birt.war";
 	}
 
 	public String getApiKey() {
