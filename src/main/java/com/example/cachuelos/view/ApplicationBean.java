@@ -69,7 +69,7 @@ public class ApplicationBean implements Serializable {
 	private void getIP() {
 		//this.ipAddress = "" + "cachuelos-cachuelos.rhcloud.com";
 		//this.reportIpAddress = "" + "jrs47-cachuelos.rhcloud.com";
-		this.ipAddress = "" + "cachuelos-proyecto-omar-prueba.7e14.starter-us-west-2.openshiftapps.com";
+		this.ipAddress = "" + "cachuelos-cachuelos.7e14.starter-ca-central-1.openshift.com";
 		this.reportIpAddress = "" + "reportes-reportes.7e14.starter-us-west-2.openshiftapps.com/birt.war";
 	}
 
