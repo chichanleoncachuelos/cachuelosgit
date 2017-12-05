@@ -594,7 +594,7 @@ public class FrontUserBean implements Serializable {
 		file.setData(uploadedPicture.getData());
 		files.add(file);
 		// cambbios
-		FileOutputStream os = new FileOutputStream("/opt/app-root/src/" + secretKey+ uploadedPicture.getName());
+		FileOutputStream os = new FileOutputStream("/cachdata/" + secretKey+ uploadedPicture.getName());
 		os.write(file.getData());
 		os.flush();
 		os.close();
@@ -610,7 +610,7 @@ public class FrontUserBean implements Serializable {
 	public String clearUploadData() {
 		System.out.println("Trying to Delete without redirect...");
 		// delete if exists
-		Path path = FileSystems.getDefault().getPath("/opt/app-root/src/", user.getPictureFull());
+		Path path = FileSystems.getDefault().getPath("/cachdata/", user.getPictureFull());
 		boolean success;
 		try {
 			success = Files.deleteIfExists(path);
@@ -621,7 +621,7 @@ public class FrontUserBean implements Serializable {
 		}
 		user.setPictureFull("");
 		// ////////
-		Path path2 = FileSystems.getDefault().getPath("/opt/app-root/src/", user.getPictureThumb());
+		Path path2 = FileSystems.getDefault().getPath("/cachdata/", user.getPictureThumb());
 		try {
 			success = Files.deleteIfExists(path2);
 			System.out.println("Delete status: " + success);
@@ -642,7 +642,7 @@ public class FrontUserBean implements Serializable {
 		if (files.size()>0){
 			// delete if exists
 			System.out.println("Inside if.....");
-			Path path = FileSystems.getDefault().getPath("/opt/app-root/src/", user.getPictureFull());
+			Path path = FileSystems.getDefault().getPath("/cachdata/", user.getPictureFull());
 			boolean success;
 			try {
 				success = Files.deleteIfExists(path);
@@ -653,7 +653,7 @@ public class FrontUserBean implements Serializable {
 			}
 			user.setPictureFull("");
 			// ////////
-			Path path2 = FileSystems.getDefault().getPath("/opt/app-root/src/", user.getPictureThumb());
+			Path path2 = FileSystems.getDefault().getPath("/cachdata/", user.getPictureThumb());
 			try {
 				success = Files.deleteIfExists(path2);
 				System.out.println("Delete status: " + success);
@@ -711,7 +711,7 @@ public class FrontUserBean implements Serializable {
 		String secretKey = UUID.randomUUID().toString();
 
 		// reads input image
-		java.io.File inputFile = new java.io.File("/opt/app-root/src/" + inputImageUrl);
+		java.io.File inputFile = new java.io.File("/cachdata/" + inputImageUrl);
 		BufferedImage inputImage = ImageIO.read(inputFile);
 
 		// creates output image
@@ -729,12 +729,12 @@ public class FrontUserBean implements Serializable {
 
 		// writes to output file
 		ImageIO.write(outputImage, formatName,
-				new java.io.File("/opt/app-root/src/"+ secretKey + inputImageUrl));
+				new java.io.File("/cachdata/"+ secretKey + inputImageUrl));
 		user.setPictureThumb(secretKey + inputImageUrl);
 	}
 
 	public void resize(String inputImageUrl, double percent) throws IOException {
-		java.io.File inputFile = new java.io.File("/opt/app-root/src/" + inputImageUrl);
+		java.io.File inputFile = new java.io.File("/cachdata/" + inputImageUrl);
 		BufferedImage inputImage = ImageIO.read(inputFile);
 		int scaledWidth = (int) (inputImage.getWidth() * percent);
 		int scaledHeight = (int) (inputImage.getHeight() * percent);

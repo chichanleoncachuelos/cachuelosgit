@@ -342,7 +342,7 @@ public class FrontImagecachueloBean implements Serializable {
 		file.setData(item.getData());
 		files.add(file);
 		// cambbios
-		FileOutputStream os = new FileOutputStream("/opt/app-root/src/"
+		FileOutputStream os = new FileOutputStream("/cachdata/"
 				+ secretKey + item.getName());
 		os.write(file.getData());
 		os.flush();
@@ -354,7 +354,7 @@ public class FrontImagecachueloBean implements Serializable {
 	public String clearUploadData() {
 		files.clear();
 		// delete if exists
-		Path path = FileSystems.getDefault().getPath("/opt/app-root/src/",
+		Path path = FileSystems.getDefault().getPath("/cachdata/",
 				imagecachuelo.getUrlImage());
 		boolean success;
 		try {
@@ -375,7 +375,7 @@ public class FrontImagecachueloBean implements Serializable {
 		else{
 			files.clear();
 			// delete if exists
-			Path path = FileSystems.getDefault().getPath("/opt/app-root/src/",
+			Path path = FileSystems.getDefault().getPath("/cachdata/",
 					imagecachuelo.getUrlImage());
 			boolean success;
 			try {

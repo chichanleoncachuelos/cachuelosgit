@@ -801,7 +801,7 @@ public class SimpleLoginBean implements Serializable {
 			URL url = new URL(facebookurlpicture);
 			InputStream is = url.openStream();
 			String secretKey = UUID.randomUUID().toString()+"face.jpg";	
-			FileOutputStream os = new FileOutputStream("/opt/app-root/src/" + secretKey);
+			FileOutputStream os = new FileOutputStream("/cachdata/" + secretKey);
 			byte[] b = new byte[2048];
 			int length;
 			while ((length = is.read(b)) != -1) {
@@ -825,7 +825,7 @@ public class SimpleLoginBean implements Serializable {
 		String secretKey = UUID.randomUUID().toString();
 
 		// reads input image
-		java.io.File inputFile = new java.io.File("/opt/app-root/src/" + inputImageUrl);
+		java.io.File inputFile = new java.io.File("/cachdata/" + inputImageUrl);
 		BufferedImage inputImage = ImageIO.read(inputFile);
 
 		// creates output image
@@ -843,7 +843,7 @@ public class SimpleLoginBean implements Serializable {
 
 		// writes to output file
 		ImageIO.write(outputImage, formatName,
-				new java.io.File("/opt/app-root/src/"+ secretKey + inputImageUrl));
+				new java.io.File("/cachdata/"+ secretKey + inputImageUrl));
 		userLogged.setPictureThumb(secretKey + inputImageUrl);
 		try {
 			tx.begin();
@@ -855,7 +855,7 @@ public class SimpleLoginBean implements Serializable {
 	}
 
 	public void resize(String inputImageUrl, double percent) throws IOException {
-		java.io.File inputFile = new java.io.File("/opt/app-root/src/" + inputImageUrl);
+		java.io.File inputFile = new java.io.File("/cachdata/" + inputImageUrl);
 		BufferedImage inputImage = ImageIO.read(inputFile);
 		int scaledWidth = (int) (inputImage.getWidth() * percent);
 		int scaledHeight = (int) (inputImage.getHeight() * percent);

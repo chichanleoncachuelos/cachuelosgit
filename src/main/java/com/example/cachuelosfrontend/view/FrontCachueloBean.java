@@ -291,7 +291,7 @@ public class FrontCachueloBean implements Serializable {
 				iterImagecachuelos.remove();
 				// //////////////////////
 				Path path = FileSystems.getDefault().getPath(
-						"/opt/app-root/src/",
+						"/cachdata/",
 						nextInImagecachuelos.getUrlImage());
 				boolean success;
 				try {
@@ -821,7 +821,7 @@ public class FrontCachueloBean implements Serializable {
 		files.add(file);
 		// cambbios
 		FileOutputStream os = new FileOutputStream(
-				"/opt/app-root/src/" + secretKey
+				"/cachdata/" + secretKey
 						+ uploadedPic.getName());
 		os.write(file.getData());
 		os.flush();
@@ -838,7 +838,7 @@ public class FrontCachueloBean implements Serializable {
 		// delete if exists
 		for (File file : files) {
 			Path path = FileSystems.getDefault().getPath(
-					"/opt/app-root/src/", file.getName());
+					"/cachdata/", file.getName());
 			boolean success;
 			try {
 				success = Files.deleteIfExists(path);
@@ -859,7 +859,7 @@ public class FrontCachueloBean implements Serializable {
 		// delete if exists
 		for (File file : files) {
 			Path path = FileSystems.getDefault().getPath(
-					"/opt/app-root/src/", file.getName());
+					"/cachdata/", file.getName());
 			boolean success;
 			try {
 				success = Files.deleteIfExists(path);

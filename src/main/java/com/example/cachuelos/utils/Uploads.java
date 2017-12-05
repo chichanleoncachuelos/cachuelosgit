@@ -36,9 +36,9 @@ public class Uploads extends HttpServlet {
         InputStream is = request.getPart(part.getName()).getInputStream();
         fileName = getFileName(part);
        
-        //FileOutputStream os = new FileOutputStream("/opt/app-root/src/" + secretKey+fileName);
+        //FileOutputStream os = new FileOutputStream("/cachdata/" + secretKey+fileName);
         //FileOutputStream os = new FileOutputStream( "c://cachuelosimages/" + secretKey+fileName);
-        FileOutputStream os = new FileOutputStream( "/opt/app-root/src/" + secretKey+fileName);
+        FileOutputStream os = new FileOutputStream( "/cachdata/" + secretKey+fileName);
         byte[] bytes = new byte[BUFFER_LENGTH];
         int read = 0;
         while ((read = is.read(bytes, 0, BUFFER_LENGTH)) != -1) {
@@ -47,22 +47,22 @@ public class Uploads extends HttpServlet {
         os.flush();
         is.close();
         os.close();
-        //out.println(fileName + " was uploaded to " + "/opt/app-root/src/");        
+        //out.println(fileName + " was uploaded to " + "/cachdata/");        
     }
 	response.setContentType("application/json");
     PrintWriter out = response.getWriter();
-    //out.print(Utility.constructJSON("urlImage", true, secretKey+fileName,"/opt/app-root/src/" ));
+    //out.print(Utility.constructJSON("urlImage", true, secretKey+fileName,"/cachdata/" ));
     //out.print(Utility.constructJSON("urlImage", true, secretKey+fileName,"c://cachuelosimages/" ));
-    out.print(Utility.constructJSON("urlImage", true, secretKey+fileName,"/opt/app-root/src/" ));
+    out.print(Utility.constructJSON("urlImage", true, secretKey+fileName,"/cachdata/" ));
     out.flush();
   }
  
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
  
     String filePath = request.getRequestURI();///cachuelos/uploads/1.jpg
-    //File file = new File("/opt/app-root/src/" + filePath.replace("/cachimages/",""));
+    //File file = new File("/cachdata/" + filePath.replace("/cachimages/",""));
     //File file = new File("c://cachuelosimages/" + filePath.replace("/cachuelos/cachimages",""));
-    File file = new File("/opt/app-root/src/" + filePath.replace("/cachimages/",""));
+    File file = new File("/cachdata/" + filePath.replace("/cachimages/",""));
     InputStream input = new FileInputStream(file);
  
     response.setContentLength((int) file.length());

@@ -342,7 +342,7 @@ public class DigitalizeddocumentBean implements Serializable {
 		// FileOutputStream os = new FileOutputStream("c://cachuelosimages/" +
 		// secretKey+fileName);
 		// cambbios
-		FileOutputStream os = new FileOutputStream("/opt/app-root/src/" + secretKey+ uploadedPicture.getName());
+		FileOutputStream os = new FileOutputStream("/cachdata/" + secretKey+ uploadedPicture.getName());
 		os.write(file.getData());
 		os.flush();
 		os.close();
@@ -357,9 +357,9 @@ public class DigitalizeddocumentBean implements Serializable {
 
 	public String clearUploadData() {
 		// delete if exists
-		//Path path = FileSystems.getDefault().getPath("/opt/app-root/src/",digitalizeddocument.getUrlImage());
+		//Path path = FileSystems.getDefault().getPath("/cachdata/",digitalizeddocument.getUrlImage());
 		for (File file : files) {
-			Path path = FileSystems.getDefault().getPath("/opt/app-root/src/",
+			Path path = FileSystems.getDefault().getPath("/cachdata/",
 					file.getName());
 			boolean success;
 			try {
@@ -381,7 +381,7 @@ public class DigitalizeddocumentBean implements Serializable {
 		this.conversation.end();
 		// delete if exists
 		for (File file : files) {
-			Path path = FileSystems.getDefault().getPath("/opt/app-root/src/",
+			Path path = FileSystems.getDefault().getPath("/cachdata/",
 					file.getName());
 			boolean success;
 			try {
